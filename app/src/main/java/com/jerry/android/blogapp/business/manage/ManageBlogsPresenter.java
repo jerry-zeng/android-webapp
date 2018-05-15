@@ -1,4 +1,4 @@
-package com.jerry.android.blogapp.business.blogs;
+package com.jerry.android.blogapp.business.manage;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jerry.android.blogapp.business.beans.Blog;
@@ -7,18 +7,20 @@ import com.jerry.android.blogapp.business.Url;
 import com.jerry.android.blogapp.framework.core.HttpEngine;
 import com.jerry.android.blogapp.framework.core.JsonUtil;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class BlogsPresenter implements IBlogsContract.IBlogsPresenter
+public class ManageBlogsPresenter implements IManageBlogsContract.IManageBlogsPresenter
 {
-    private IBlogsContract.IBlogsView _view;
+    private IManageBlogsContract.IManageBlogsView _view;
     private Page _currentPage;
 
-
-    public BlogsPresenter(IBlogsContract.IBlogsView view)
+    public ManageBlogsPresenter(IManageBlogsContract.IManageBlogsView view)
     {
         this._view = view;
     }
+
 
     private HttpEngine.HttpCallback onLoadDataCallback = new HttpEngine.HttpCallback()
     {
@@ -63,6 +65,45 @@ public class BlogsPresenter implements IBlogsContract.IBlogsPresenter
 
         if( _view != null)
             _view.showProgress();
+    }
+
+
+    private HttpEngine.HttpCallback onDeleteBlogCallback = new HttpEngine.HttpCallback()
+    {
+        @Override
+        public void onSuccess( String json )
+        {
+            JSONObject map = JSONObject.parseObject( json );
+            String blogId = map.getString( "id" );
+            if(blogId != null){
+                _view.onDeleteBlog( blogId );
+            }
+            else{
+                _view.showError( "Delete blog failed" );
+            }
+        }
+
+        @Override
+        public void onFailure( String reason )
+        {
+            if( _view == null)
+                return;
+
+            _view.showError(reason);
+        }
+    };
+
+    @Override
+    public void delete( String blogId )
+    {
+        if(blogId == null)
+            return;
+
+        String url = Url.Api_Blogs + "/" + blogId + "/delete";
+
+        Map<String, String> params = new HashMap<>();
+
+        HttpEngine.getInstance().Post( url, params, this.onDeleteBlogCallback );
     }
 
     @Override

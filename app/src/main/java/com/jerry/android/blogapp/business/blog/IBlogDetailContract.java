@@ -9,13 +9,13 @@ public interface IBlogDetailContract
 {
     public interface IBlogDetailPresenter extends IBasePresenter
     {
-        void loadBlogDetail(String userId);
+        void loadBlogDetail(String blogId);
         void sendComment(String content);
     }
 
     public interface IBlogDetailView extends IBaseView<IBlogDetailPresenter>
     {
-        void showBlog( Blog blog );
-        void refreshComment( Comment comment );
+        void showBlogDetail( Blog blog );
+        void addComment( Comment comment );
     }
 }

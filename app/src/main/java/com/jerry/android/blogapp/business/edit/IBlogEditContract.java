@@ -8,12 +8,13 @@ public interface IBlogEditContract
 {
     public interface IBlogEditPresenter extends IBasePresenter
     {
-        void loadBlogDetail(String userId);
-        void saveBlog();
+        void loadBlogDetail(String blogId);
+        void saveBlog(String title, String summary, String content);
     }
 
     public interface IBlogEditView extends IBaseView<IBlogEditPresenter>
     {
-        void showBlog( Blog blog);
+        void showBlogDetail( Blog blog);
+        void onSavedBlog(Blog blog);
     }
 }

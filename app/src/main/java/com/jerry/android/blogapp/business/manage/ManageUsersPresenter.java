@@ -1,21 +1,20 @@
-package com.jerry.android.blogapp.business.blogs;
+package com.jerry.android.blogapp.business.manage;
 
 import com.alibaba.fastjson.JSONObject;
-import com.jerry.android.blogapp.business.beans.Blog;
-import com.jerry.android.blogapp.business.beans.Page;
 import com.jerry.android.blogapp.business.Url;
+import com.jerry.android.blogapp.business.beans.Page;
+import com.jerry.android.blogapp.business.beans.User;
 import com.jerry.android.blogapp.framework.core.HttpEngine;
 import com.jerry.android.blogapp.framework.core.JsonUtil;
 
 import java.util.List;
 
-public class BlogsPresenter implements IBlogsContract.IBlogsPresenter
+public class ManageUsersPresenter implements IMangeUsersContract.IManageUsersPresenter
 {
-    private IBlogsContract.IBlogsView _view;
+    private IMangeUsersContract.IManageUsersView _view;
     private Page _currentPage;
 
-
-    public BlogsPresenter(IBlogsContract.IBlogsView view)
+    public ManageUsersPresenter(IMangeUsersContract.IManageUsersView view)
     {
         this._view = view;
     }
@@ -31,15 +30,15 @@ public class BlogsPresenter implements IBlogsContract.IBlogsPresenter
             JSONObject map = JSONObject.parseObject( json );
 
             Page page = JsonUtil.deserialize( map.getString( "page" ), Page.class );
-            List<Blog> blogs = JsonUtil.deserializeArray( map.getString( "blogs" ), Blog.class );
+            List<User> users = JsonUtil.deserializeArray( map.getString( "users" ), User.class );
 
-            if(blogs != null){
+            if(users != null){
                 _view.hideProgress();
-                _view.addDataList( blogs );
+                _view.addDataList( users );
             }
             else{
                 _view.hideProgress();
-                _view.showError( "Request blog list failed" );
+                _view.showError( "Request user list failed" );
             }
             _currentPage = page;
         }
@@ -58,7 +57,7 @@ public class BlogsPresenter implements IBlogsContract.IBlogsPresenter
     @Override
     public void loadData( int page, int size )
     {
-        String url = Url.Api_Blogs + "?page=" + page + "&size=" + size;
+        String url = Url.Api_Users + "?page=" + page + "&size=" + size;
         HttpEngine.getInstance().Get( url, this.onLoadDataCallback );
 
         if( _view != null)

@@ -14,9 +14,5 @@ public interface IUserDetailContract
     public interface IUserView extends IBaseView<IUserPresenter>
     {
         void showUserDetail( User user);
-
-        void showProgress();
-
-        void hideProgress();
     }
 }
