@@ -1,5 +1,8 @@
 package com.jerry.android.blogapp.business.blog;
 
-public class BlogDetailActivity
+import com.jerry.android.blogapp.framework.BaseSwipeBackActivity;
+
+public class BlogDetailActivity extends BaseSwipeBackActivity
 {
+
 }

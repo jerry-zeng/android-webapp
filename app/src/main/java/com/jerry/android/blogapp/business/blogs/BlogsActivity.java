@@ -14,8 +14,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.jerry.android.blogapp.R;
+import com.jerry.android.blogapp.framework.BaseAppCompatActivity;
 
-public class BlogsActivity extends AppCompatActivity
+public class BlogsActivity extends BaseAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override

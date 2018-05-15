@@ -1,5 +1,7 @@
 package com.jerry.android.blogapp.business.manage;
 
-public class ManageActivity
+import com.jerry.android.blogapp.framework.BaseAppCompatActivity;
+
+public class ManageActivity extends BaseAppCompatActivity
 {
 }

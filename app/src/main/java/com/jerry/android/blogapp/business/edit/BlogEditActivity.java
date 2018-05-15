@@ -1,5 +1,8 @@
 package com.jerry.android.blogapp.business.edit;
 
-public class BlogEditActivity
+import com.jerry.android.blogapp.framework.BaseSwipeBackActivity;
+
+public class BlogEditActivity extends BaseSwipeBackActivity
 {
+
 }
