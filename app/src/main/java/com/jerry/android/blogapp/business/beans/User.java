@@ -100,4 +100,10 @@ public class User implements Serializable
     {
         return admin > 0;
     }
+
+    @Override
+    public String toString()
+    {
+        return String.format( "User: id=%s, name=%s, email=%s", getId(), getName(), getEmail() );
+    }
 }

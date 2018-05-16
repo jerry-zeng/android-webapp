@@ -94,4 +94,11 @@ public class Comment implements Serializable
     {
         this.created_at = created_at;
     }
+
+
+    @Override
+    public String toString()
+    {
+        return String.format("Comment: id=%s, author=%s, blog_title=%s, content=%s", getId(), getUser_name(), getBlog_title(), getContent());
+    }
 }

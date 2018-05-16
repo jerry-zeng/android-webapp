@@ -105,4 +105,11 @@ public class Blog implements Serializable
     {
         this.latest_reply = latest_reply;
     }
+
+
+    @Override
+    public String toString()
+    {
+        return String.format("Blog: id=%s, author=%s, title=%s", getId(), getUser_name(), getTitle());
+    }
 }

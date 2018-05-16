@@ -25,13 +25,14 @@ public class BlogsPresenter implements IBlogsContract.IBlogsPresenter
         @Override
         public void onSuccess( String json )
         {
-            if( _view == null)
-                return;
-
             JSONObject map = JSONObject.parseObject( json );
 
             Page page = JsonUtil.deserialize( map.getString( "page" ), Page.class );
             List<Blog> blogs = JsonUtil.deserializeArray( map.getString( "blogs" ), Blog.class );
+            _currentPage = page;
+
+            if( _view == null)
+                return;
 
             if(blogs != null){
                 _view.hideProgress();
@@ -41,7 +42,7 @@ public class BlogsPresenter implements IBlogsContract.IBlogsPresenter
                 _view.hideProgress();
                 _view.showError( "Request blog list failed" );
             }
-            _currentPage = page;
+
         }
 
         @Override

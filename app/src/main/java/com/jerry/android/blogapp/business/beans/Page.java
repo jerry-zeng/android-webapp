@@ -61,4 +61,11 @@ public class Page implements Serializable
     {
         this.has_previous = has_previous;
     }
+
+
+    @Override
+    public String toString()
+    {
+        return String.format( "Page: page_index=%d, page_count=%d, item_count=%d", getPage_index(), getPage_count(), getItem_count() );
+    }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.jerry.android.blogapp.business.beans.Blog;
+import com.jerry.android.blogapp.business.utils.Debug;
 import com.jerry.android.blogapp.framework.BaseFragment;
 
 import java.util.List;
@@ -11,6 +12,8 @@ import java.util.List;
 
 public class BlogsFragment extends BaseFragment implements IBlogsContract.IBlogsView
 {
+    private static final String TAG = "BlogsFragment";
+
     private IBlogsContract.IBlogsPresenter _presenter;
 
 
@@ -27,6 +30,7 @@ public class BlogsFragment extends BaseFragment implements IBlogsContract.IBlogs
     {
         _presenter.destroy();
         _presenter = null;
+
         super.onDestroy();
     }
 
@@ -39,7 +43,7 @@ public class BlogsFragment extends BaseFragment implements IBlogsContract.IBlogs
     @Override
     public void showLoadFailMsg()
     {
-
+        Debug.log( TAG, "load data list failed" );
     }
 
     @Override

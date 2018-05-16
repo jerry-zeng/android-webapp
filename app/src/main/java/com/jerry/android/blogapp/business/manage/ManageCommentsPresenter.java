@@ -27,13 +27,14 @@ public class ManageCommentsPresenter implements IManageCommentsContract.IManageC
         @Override
         public void onSuccess( String json )
         {
-            if( _view == null)
-                return;
-
             JSONObject map = JSONObject.parseObject( json );
 
             Page page = JsonUtil.deserialize( map.getString( "page" ), Page.class );
             List<Comment> comments = JsonUtil.deserializeArray( map.getString( "comments" ), Comment.class );
+            _currentPage = page;
+
+            if( _view == null)
+                return;
 
             if(comments != null){
                 _view.hideProgress();
@@ -43,7 +44,6 @@ public class ManageCommentsPresenter implements IManageCommentsContract.IManageC
                 _view.hideProgress();
                 _view.showError( "Request comment list failed" );
             }
-            _currentPage = page;
         }
 
         @Override
@@ -74,6 +74,7 @@ public class ManageCommentsPresenter implements IManageCommentsContract.IManageC
         {
             JSONObject map = JSONObject.parseObject( json );
             String commentId = map.getString( "id" );
+
             if(commentId != null){
                 _view.onDeleteComment( commentId );
             }

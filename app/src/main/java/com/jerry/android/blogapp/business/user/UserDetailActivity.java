@@ -1,9 +1,9 @@
 package com.jerry.android.blogapp.business.user;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import com.jerry.android.blogapp.business.beans.User;
+import com.jerry.android.blogapp.business.utils.Debug;
 import com.jerry.android.blogapp.framework.BaseSwipeBackActivity;
 
 public class UserDetailActivity extends BaseSwipeBackActivity implements IUserDetailContract.IUserView
@@ -18,8 +18,6 @@ public class UserDetailActivity extends BaseSwipeBackActivity implements IUserDe
         super.onCreate( savedInstanceState );
 
         //setContentView(  );
-
-        initUI();
 
         _presenter = new UserDetailPresenter( this );
         _presenter.start();
@@ -38,14 +36,11 @@ public class UserDetailActivity extends BaseSwipeBackActivity implements IUserDe
         super.onDestroy();
     }
 
-    void initUI(){
-
-    }
 
     @Override
     public void showUserDetail( User user )
     {
-        Log.i( TAG, String.format("User: id=%s, name=%s, email=%s", user.getId(), user.getName(), user.getEmail()) );
+        Debug.log( TAG, user.toString() );
     }
 
     @Override
@@ -58,9 +53,11 @@ public class UserDetailActivity extends BaseSwipeBackActivity implements IUserDe
     {
 
     }
+
     @Override
     public void setPresenter( IUserDetailContract.IUserPresenter presenter )
     {
+        this._presenter = presenter;
     }
 
     @Override

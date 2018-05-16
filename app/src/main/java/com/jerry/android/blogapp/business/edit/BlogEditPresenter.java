@@ -24,10 +24,12 @@ public class BlogEditPresenter implements IBlogEditContract.IBlogEditPresenter
         @Override
         public void onSuccess( String json )
         {
+            Blog blog = JsonUtil.deserialize( json, Blog.class );
+            _currentBlog = blog;
+
             if( _view == null)
                 return;
 
-            Blog blog = JsonUtil.deserialize( json, Blog.class );
             if(blog != null){
                 _view.hideProgress();
                 _view.showBlogDetail( blog );
@@ -36,7 +38,7 @@ public class BlogEditPresenter implements IBlogEditContract.IBlogEditPresenter
                 _view.hideProgress();
                 _view.showError( "Request blog detail failed" );
             }
-            _currentBlog = blog;
+
         }
 
         @Override
@@ -68,10 +70,11 @@ public class BlogEditPresenter implements IBlogEditContract.IBlogEditPresenter
         @Override
         public void onSuccess( String json )
         {
+            Blog blog = JsonUtil.deserialize( json, Blog.class );
+
             if( _view == null)
                 return;
 
-            Blog blog = JsonUtil.deserialize( json, Blog.class );
             if(blog != null){
                 _view.onSavedBlog( blog );
             }
@@ -85,6 +88,7 @@ public class BlogEditPresenter implements IBlogEditContract.IBlogEditPresenter
         {
             if( _view == null)
                 return;
+
             _view.showError( reason );
         }
     };

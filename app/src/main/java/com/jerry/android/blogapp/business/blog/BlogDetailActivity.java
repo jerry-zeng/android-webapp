@@ -1,16 +1,15 @@
 package com.jerry.android.blogapp.business.blog;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import com.jerry.android.blogapp.business.beans.Blog;
 import com.jerry.android.blogapp.business.beans.Comment;
+import com.jerry.android.blogapp.business.utils.Debug;
 import com.jerry.android.blogapp.framework.BaseSwipeBackActivity;
 
 public class BlogDetailActivity extends BaseSwipeBackActivity implements IBlogDetailContract.IBlogDetailView
 {
-
-    private static final String TAG = "UserDetailActivity";
+    private static final String TAG = "BlogDetailActivity";
 
     private IBlogDetailContract.IBlogDetailPresenter _presenter;
 
@@ -21,8 +20,6 @@ public class BlogDetailActivity extends BaseSwipeBackActivity implements IBlogDe
         super.onCreate( savedInstanceState );
 
         //setContentView(  );
-
-        initUI();
 
         _presenter = new BlogDetailPresenter( this );
         _presenter.start();
@@ -41,21 +38,17 @@ public class BlogDetailActivity extends BaseSwipeBackActivity implements IBlogDe
         super.onDestroy();
     }
 
-    void initUI(){
-
-    }
-
 
     @Override
     public void showBlogDetail( Blog blog )
     {
-        Log.i( TAG, String.format("Blog: id=%s, author=%s, title=%s", blog.getId(), blog.getUser_name(), blog.getTitle()) );
+        Debug.log( TAG, blog.toString() );
     }
 
     @Override
     public void addComment( Comment comment )
     {
-        Log.i( TAG, String.format("add Comment: id=%s, author=%s, blog_title=%s, content=%s", comment.getId(), comment.getUser_name(), comment.getBlog_title(), comment.getContent()) );
+        Debug.log( TAG, comment.toString() );
     }
 
     @Override
@@ -73,7 +66,7 @@ public class BlogDetailActivity extends BaseSwipeBackActivity implements IBlogDe
     @Override
     public void setPresenter( IBlogDetailContract.IBlogDetailPresenter presenter )
     {
-
+        this._presenter = presenter;
     }
 
     @Override

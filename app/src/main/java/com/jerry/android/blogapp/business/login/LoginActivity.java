@@ -1,30 +1,31 @@
-package com.jerry.android.blogapp.business.manage;
+package com.jerry.android.blogapp.business.login;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.jerry.android.blogapp.business.beans.User;
 import com.jerry.android.blogapp.business.utils.Debug;
-import com.jerry.android.blogapp.framework.BaseFragment;
+import com.jerry.android.blogapp.framework.BaseAppCompatActivity;
 
-import java.util.List;
-
-public class ManageUsersFragment extends BaseFragment implements IMangeUsersContract.IManageUsersView
+public class LoginActivity extends BaseAppCompatActivity implements ILoginContract.ILoginView
 {
-    private static final String TAG = "ManageUsersFragment";
+    private static final String TAG = "LoginActivity";
 
-    private IMangeUsersContract.IManageUsersPresenter _presenter;
-
+    private ILoginContract.ILoginPresenter _presenter;
 
     @Override
-    public void onCreate( @Nullable Bundle savedInstanceState )
+    protected void onCreate( @Nullable Bundle savedInstanceState )
     {
         super.onCreate( savedInstanceState );
 
+        //setContentView(  );
+
+        _presenter = new LoginPresenter( this );
+        _presenter.start();
     }
 
     @Override
-    public void onDestroy()
+    protected void onDestroy()
     {
         _presenter.destroy();
         _presenter = null;
@@ -32,20 +33,15 @@ public class ManageUsersFragment extends BaseFragment implements IMangeUsersCont
         super.onDestroy();
     }
 
-    @Override
-    public void addDataList( List<User> list )
-    {
 
+    @Override
+    public void onLogin( User user )
+    {
+        Debug.log( TAG, user.toString() );
     }
 
     @Override
-    public void showLoadFailMsg()
-    {
-        Debug.log( TAG, "load data list failed" );
-    }
-
-    @Override
-    public void setPresenter( IMangeUsersContract.IManageUsersPresenter presenter )
+    public void setPresenter( ILoginContract.ILoginPresenter presenter )
     {
         this._presenter = presenter;
     }

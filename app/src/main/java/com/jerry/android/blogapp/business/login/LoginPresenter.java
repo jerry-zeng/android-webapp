@@ -1,21 +1,24 @@
-package com.jerry.android.blogapp.business.user;
+package com.jerry.android.blogapp.business.login;
 
-import com.jerry.android.blogapp.business.beans.User;
 import com.jerry.android.blogapp.business.Url;
+import com.jerry.android.blogapp.business.beans.User;
 import com.jerry.android.blogapp.framework.core.HttpEngine;
 import com.jerry.android.blogapp.framework.core.JsonUtil;
 
-public class UserDetailPresenter implements IUserDetailContract.IUserPresenter
+import java.util.HashMap;
+import java.util.Map;
+
+public class LoginPresenter implements ILoginContract.ILoginPresenter
 {
-    private IUserDetailContract.IUserView _view;
+    private ILoginContract.ILoginView _view;
     private User _currentUser;
 
-    public UserDetailPresenter(IUserDetailContract.IUserView userView)
+    public LoginPresenter(ILoginContract.ILoginView view)
     {
-        this._view = userView;
+        this._view = view;
     }
 
-    private HttpEngine.HttpCallback onLoadUserDetailCallback = new HttpEngine.HttpCallback()
+    private HttpEngine.HttpCallback onLoginCallback = new HttpEngine.HttpCallback()
     {
         @Override
         public void onSuccess( String json )
@@ -23,18 +26,14 @@ public class UserDetailPresenter implements IUserDetailContract.IUserPresenter
             User user = JsonUtil.deserialize( json, User.class );
             _currentUser = user;
 
-            if( _view == null)
-                return;
-
             if(user != null){
                 _view.hideProgress();
-                _view.showUserDetail( user );
+                _view.onLogin( user );
             }
             else{
                 _view.hideProgress();
-                _view.showError( "Request user info failed" );
+                _view.showError( "Login failed" );
             }
-
         }
 
         @Override
@@ -49,18 +48,23 @@ public class UserDetailPresenter implements IUserDetailContract.IUserPresenter
     };
 
     @Override
-    public void loadUserDetail( String userId )
+    public void login( String email, String password )
     {
-        if(userId == null)
+        if(email == null || password == null)
             return;
 
-        String url = Url.Api_Users + "/" + userId;
-        HttpEngine.getInstance().Get( url, this.onLoadUserDetailCallback );
+        String url = Url.Api_Login;
+
+        Map<String, String> params = new HashMap<>();
+        params.put( "email", email );
+        params.put( "password", password );
+        params.put( "remember", "true" );
+
+        HttpEngine.getInstance().Post( url, params, this.onLoginCallback );
 
         if( _view != null)
             _view.showProgress();
     }
-
 
     @Override
     public void start()

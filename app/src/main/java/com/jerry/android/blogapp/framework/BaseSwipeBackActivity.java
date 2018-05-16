@@ -10,4 +10,14 @@ public class BaseSwipeBackActivity extends SwipeBackActivity
     {
         Toast.makeText( getApplicationContext(), msg, Toast.LENGTH_SHORT ).show();
     }
+
+    protected void initData()
+    {
+
+    }
+
+    protected void initUI()
+    {
+
+    }
 }

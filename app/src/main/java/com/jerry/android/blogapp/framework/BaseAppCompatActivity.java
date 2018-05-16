@@ -9,4 +9,14 @@ public class BaseAppCompatActivity extends AppCompatActivity
     {
         Toast.makeText( getApplicationContext(), msg, Toast.LENGTH_SHORT ).show();
     }
+
+    protected void initData()
+    {
+
+    }
+
+    protected void initUI()
+    {
+
+    }
 }
