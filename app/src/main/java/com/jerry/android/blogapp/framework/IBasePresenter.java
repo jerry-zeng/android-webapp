@@ -4,4 +4,5 @@ public interface IBasePresenter
 {
     void start();
     void destroy();
+    boolean isWorking();
 }

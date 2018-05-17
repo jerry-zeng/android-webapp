@@ -13,6 +13,7 @@ public class ManageUsersPresenter implements IMangeUsersContract.IManageUsersPre
 {
     private IMangeUsersContract.IManageUsersView _view;
     private Page _currentPage;
+    private boolean _isWorking = false;
 
     public ManageUsersPresenter(IMangeUsersContract.IManageUsersView view)
     {
@@ -75,5 +76,12 @@ public class ManageUsersPresenter implements IMangeUsersContract.IManageUsersPre
     {
         _view = null;
         _currentPage = null;
+        _isWorking = false;
+    }
+
+    @Override
+    public boolean isWorking()
+    {
+        return _isWorking;
     }
 }

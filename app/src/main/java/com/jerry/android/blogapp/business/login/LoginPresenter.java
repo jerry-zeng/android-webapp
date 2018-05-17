@@ -12,11 +12,14 @@ public class LoginPresenter implements ILoginContract.ILoginPresenter
 {
     private ILoginContract.ILoginView _view;
     private User _currentUser;
+    private boolean _isWorking = false;
+
 
     public LoginPresenter(ILoginContract.ILoginView view)
     {
         this._view = view;
     }
+
 
     private HttpEngine.HttpCallback onLoginCallback = new HttpEngine.HttpCallback()
     {
@@ -77,5 +80,12 @@ public class LoginPresenter implements ILoginContract.ILoginPresenter
     {
         _view = null;
         _currentUser = null;
+        _isWorking = false;
+    }
+
+    @Override
+    public boolean isWorking()
+    {
+        return this._isWorking;
     }
 }

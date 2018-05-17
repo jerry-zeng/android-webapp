@@ -15,6 +15,7 @@ public class ManageCommentsPresenter implements IManageCommentsContract.IManageC
 {
     private IManageCommentsContract.IManageCommentsView _view;
     private Page _currentPage;
+    private boolean _isWorking = false;
 
     public ManageCommentsPresenter(IManageCommentsContract.IManageCommentsView view)
     {
@@ -117,5 +118,12 @@ public class ManageCommentsPresenter implements IManageCommentsContract.IManageC
     {
         _view = null;
         _currentPage = null;
+        _isWorking = false;
+    }
+
+    @Override
+    public boolean isWorking()
+    {
+        return _isWorking;
     }
 }

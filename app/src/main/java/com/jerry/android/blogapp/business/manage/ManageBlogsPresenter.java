@@ -15,6 +15,7 @@ public class ManageBlogsPresenter implements IManageBlogsContract.IManageBlogsPr
 {
     private IManageBlogsContract.IManageBlogsView _view;
     private Page _currentPage;
+    private boolean _isWorking = false;
 
     public ManageBlogsPresenter(IManageBlogsContract.IManageBlogsView view)
     {
@@ -118,5 +119,12 @@ public class ManageBlogsPresenter implements IManageBlogsContract.IManageBlogsPr
     {
         _view = null;
         _currentPage = null;
+        _isWorking = false;
+    }
+
+    @Override
+    public boolean isWorking()
+    {
+        return _isWorking;
     }
 }

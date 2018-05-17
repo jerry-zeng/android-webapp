@@ -9,6 +9,7 @@ public class UserDetailPresenter implements IUserDetailContract.IUserPresenter
 {
     private IUserDetailContract.IUserView _view;
     private User _currentUser;
+    private boolean _isWorking = false;
 
     public UserDetailPresenter(IUserDetailContract.IUserView userView)
     {
@@ -73,5 +74,12 @@ public class UserDetailPresenter implements IUserDetailContract.IUserPresenter
     {
         _view = null;
         _currentUser = null;
+        _isWorking = false;
+    }
+
+    @Override
+    public boolean isWorking()
+    {
+        return _isWorking;
     }
 }

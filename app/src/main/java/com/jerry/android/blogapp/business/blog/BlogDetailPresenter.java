@@ -13,6 +13,7 @@ public class BlogDetailPresenter implements IBlogDetailContract.IBlogDetailPrese
 {
     private IBlogDetailContract.IBlogDetailView _view;
     private Blog _currentBlog;
+    private boolean _isWorking = false;
 
     public BlogDetailPresenter(IBlogDetailContract.IBlogDetailView detailView)
     {
@@ -120,5 +121,12 @@ public class BlogDetailPresenter implements IBlogDetailContract.IBlogDetailPrese
     {
         _view = null;
         _currentBlog = null;
+        _isWorking = false;
+    }
+
+    @Override
+    public boolean isWorking()
+    {
+        return _isWorking;
     }
 }

@@ -12,7 +12,7 @@ public class BlogEditPresenter implements IBlogEditContract.IBlogEditPresenter
 {
     private IBlogEditContract.IBlogEditView _view;
     private Blog _currentBlog;
-
+    private boolean _isWorking = false;
 
     public BlogEditPresenter(IBlogEditContract.IBlogEditView editView)
     {
@@ -121,5 +121,12 @@ public class BlogEditPresenter implements IBlogEditContract.IBlogEditPresenter
     {
         _view = null;
         _currentBlog = null;
+        _isWorking = false;
+    }
+
+    @Override
+    public boolean isWorking()
+    {
+        return _isWorking;
     }
 }

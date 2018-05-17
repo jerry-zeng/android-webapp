@@ -13,7 +13,7 @@ public class BlogsPresenter implements IBlogsContract.IBlogsPresenter
 {
     private IBlogsContract.IBlogsView _view;
     private Page _currentPage;
-
+    private boolean _isWorking = false;
 
     public BlogsPresenter(IBlogsContract.IBlogsView view)
     {
@@ -77,5 +77,12 @@ public class BlogsPresenter implements IBlogsContract.IBlogsPresenter
     {
         _view = null;
         _currentPage = null;
+        _isWorking = false;
+    }
+
+    @Override
+    public boolean isWorking()
+    {
+        return _isWorking;
     }
 }

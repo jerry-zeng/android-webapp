@@ -12,6 +12,7 @@ public class RegisterPresenter implements IRegisterContract.IRegisterPresenter
 {
     private IRegisterContract.IRegisterView _view;
     private User _currentUser;
+    private boolean _isWorking = false;
 
     public RegisterPresenter(IRegisterContract.IRegisterView view)
     {
@@ -77,5 +78,12 @@ public class RegisterPresenter implements IRegisterContract.IRegisterPresenter
     {
         _view = null;
         _currentUser = null;
+        _isWorking = false;
+    }
+
+    @Override
+    public boolean isWorking()
+    {
+        return this._isWorking;
     }
 }
