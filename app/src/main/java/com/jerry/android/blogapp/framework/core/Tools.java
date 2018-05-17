@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import java.security.MessageDigest;
+
 /**
  * Description :
  * Author : lauren
@@ -104,4 +106,30 @@ public class Tools
 		return false;
 	}
 
+
+	public static String toHex(byte[] bytes) {
+
+		final char[] HEX_DIGITS = "0123456789abcdef".toCharArray();
+		StringBuilder ret = new StringBuilder(bytes.length * 2);
+		for (int i=0; i<bytes.length; i++) {
+			ret.append(HEX_DIGITS[(bytes[i] >> 4) & 0x0f]);
+			ret.append(HEX_DIGITS[bytes[i] & 0x0f]);
+		}
+		return ret.toString();
+	}
+
+	public static String getMd5(String value)
+	{
+		if(value == null || value.equals( "" ))
+			return "";
+
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			byte[] bytes = md.digest(value.getBytes("utf-8"));
+			return toHex(bytes);
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

@@ -6,6 +6,7 @@ import com.jerry.android.blogapp.business.beans.User;
 import com.jerry.android.blogapp.business.utils.Debug;
 import com.jerry.android.blogapp.framework.core.HttpEngine;
 import com.jerry.android.blogapp.framework.core.JsonUtil;
+import com.jerry.android.blogapp.framework.core.Tools;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -72,7 +73,7 @@ public class LoginPresenter implements ILoginContract.ILoginPresenter
 
         Map<String, String> params = new HashMap<>();
         params.put( "email", email );
-        params.put( "password", password );
+        params.put( "password", Tools.getMd5( password ) );
         params.put( "remember", "true" );
 
         HttpEngine.getInstance().Post( url, params, this.onLoginCallback );

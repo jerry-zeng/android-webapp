@@ -19,4 +19,11 @@ public class Debug
             Log.i( tag, msg );
         }
     }
+
+    public static void print(String msg)
+    {
+        if(debugMode){
+            System.out.println(msg);
+        }
+    }
 }

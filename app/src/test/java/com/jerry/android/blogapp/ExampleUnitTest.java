@@ -1,5 +1,7 @@
 package com.jerry.android.blogapp;
 
+import com.jerry.android.blogapp.framework.core.Tools;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -21,5 +23,12 @@ public class ExampleUnitTest {
     public void another_test(){
         Debug.Log("another_test()");
         assertEquals(3, 2 + 1);
+    }
+
+    @Test
+    public void md5_test(){
+        Debug.Log( "md5('admin'): " );
+        Debug.Log( Tools.getMd5( "admin" ) );
+        assertEquals( "21232f297a57a5a743894a0e4a801fc3", Tools.getMd5( "admin" ) );
     }
 }
