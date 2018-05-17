@@ -1,9 +1,11 @@
 package com.jerry.android.blogapp.business.manage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.jerry.android.blogapp.business.beans.Blog;
+import com.jerry.android.blogapp.business.edit.BlogEditActivity;
 import com.jerry.android.blogapp.business.utils.Debug;
 import com.jerry.android.blogapp.framework.BaseFragment;
 
@@ -72,5 +74,21 @@ public class ManageBlogsFragment extends BaseFragment implements IManageBlogsCon
     public void hideProgress()
     {
 
+    }
+
+
+    private void OnClickItem()
+    {
+
+
+        Intent intent = new Intent( getContext(), BlogEditActivity.class );
+
+        //String blogId = "001526130925642d9fc4d674154402484fa79870530cb46000";
+        //intent.putExtra( "blogId", blogId );
+
+        Blog blog = new Blog();
+        intent.putExtra( "blog", blog );
+
+        startActivity( intent );
     }
 }

@@ -73,10 +73,16 @@ public class ManageUsersFragment extends BaseFragment implements IMangeUsersCont
 
     private void OnClickItem()
     {
-        String userId = "001526130925642d9fc4d674154402484fa79870530cb46000";
+
 
         Intent intent = new Intent( getContext(), UserDetailActivity.class );
-        intent.putExtra( "userId", userId );
+
+        //String userId = "001526130925642d9fc4d674154402484fa79870530cb46000";
+        //intent.putExtra( "userId", userId );
+
+        User user = new User();
+        intent.putExtra( "user", user );
+
         startActivity( intent );
     }
 }

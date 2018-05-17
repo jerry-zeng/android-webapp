@@ -41,8 +41,11 @@ public class UserDetailActivity extends BaseSwipeBackActivity implements IUserDe
 
         // get user id from previous Activity.
         Intent intent = getIntent();
-        String userId = intent.getStringExtra( "userId" );
-        _presenter.loadUserDetail( userId );
+        //String userId = intent.getStringExtra( "userId" );
+        //_presenter.loadUserDetail( userId );
+
+        User user = (User)intent.getSerializableExtra( "user" );
+        showUserDetail( user );
     }
 
     @Override

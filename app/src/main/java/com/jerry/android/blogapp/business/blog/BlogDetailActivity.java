@@ -1,5 +1,6 @@
 package com.jerry.android.blogapp.business.blog;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.jerry.android.blogapp.business.beans.Blog;
@@ -24,9 +25,11 @@ public class BlogDetailActivity extends BaseSwipeBackActivity implements IBlogDe
         _presenter = new BlogDetailPresenter( this );
         _presenter.start();
 
-        //TODO: get blog id from previous Activity.
-        String blogId = "001526132013994d97bd470d52f42a3b75c6b3d51a90dfb000";
+        // get blog id from previous Activity.
+        Intent intent = getIntent();
+        String blogId = intent.getStringExtra( "blogId" );
         _presenter.loadBlogDetail( blogId );
+
     }
 
     @Override

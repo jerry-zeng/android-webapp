@@ -28,4 +28,8 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <string name="prompt_title">Input the title</string>
+    <string name="prompt_content">Input the content</string>
+    <string name="action_submit">Submit</string>
 </resources>

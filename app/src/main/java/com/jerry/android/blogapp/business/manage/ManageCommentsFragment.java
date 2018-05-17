@@ -1,9 +1,11 @@
 package com.jerry.android.blogapp.business.manage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.jerry.android.blogapp.business.beans.Comment;
+import com.jerry.android.blogapp.business.blog.BlogDetailActivity;
 import com.jerry.android.blogapp.business.utils.Debug;
 import com.jerry.android.blogapp.framework.BaseFragment;
 
@@ -72,5 +74,18 @@ public class ManageCommentsFragment extends BaseFragment implements IManageComme
     public void hideProgress()
     {
 
+    }
+
+
+    private void OnClickItem()
+    {
+
+
+        Intent intent = new Intent( getContext(), BlogDetailActivity.class );
+
+        String blogId = "001526130925642d9fc4d674154402484fa79870530cb46000";
+        intent.putExtra( "blogId", blogId );
+
+        startActivity( intent );
     }
 }
