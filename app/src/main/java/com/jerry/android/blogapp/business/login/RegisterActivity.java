@@ -18,9 +18,9 @@ import android.widget.TextView;
 import com.jerry.android.blogapp.R;
 import com.jerry.android.blogapp.business.beans.User;
 import com.jerry.android.blogapp.business.utils.Debug;
-import com.jerry.android.blogapp.framework.BaseAppCompatActivity;
+import com.jerry.android.blogapp.framework.BaseSwipeBackActivity;
 
-public class RegisterActivity extends BaseAppCompatActivity implements IRegisterContract.IRegisterView
+public class RegisterActivity extends BaseSwipeBackActivity implements IRegisterContract.IRegisterView
 {
     private static final String TAG = "RegisterActivity";
 

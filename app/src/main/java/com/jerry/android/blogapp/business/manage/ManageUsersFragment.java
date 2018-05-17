@@ -1,9 +1,11 @@
 package com.jerry.android.blogapp.business.manage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.jerry.android.blogapp.business.beans.User;
+import com.jerry.android.blogapp.business.user.UserDetailActivity;
 import com.jerry.android.blogapp.business.utils.Debug;
 import com.jerry.android.blogapp.framework.BaseFragment;
 
@@ -66,5 +68,15 @@ public class ManageUsersFragment extends BaseFragment implements IMangeUsersCont
     public void hideProgress()
     {
 
+    }
+
+
+    private void OnClickItem()
+    {
+        String userId = "001526130925642d9fc4d674154402484fa79870530cb46000";
+
+        Intent intent = new Intent( getContext(), UserDetailActivity.class );
+        intent.putExtra( "userId", userId );
+        startActivity( intent );
     }
 }
