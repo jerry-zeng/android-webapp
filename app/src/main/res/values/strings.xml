@@ -11,7 +11,7 @@
     <!-- Strings related to login -->
     <string name="prompt_name">Name (2-10 chars)</string>
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (6-16 chars)</string>
+    <string name="prompt_password">Password (4-16 chars)</string>
     <string name="prompt_password_repeat">Password repeat</string>
     <string name="action_sign_in">Sign in</string>
     <string name="prompt_register">Create a new account?</string>

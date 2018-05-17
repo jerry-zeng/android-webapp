@@ -1,5 +1,6 @@
 package com.jerry.android.blogapp.business.edit;
 
+import com.jerry.android.blogapp.business.beans.ApiError;
 import com.jerry.android.blogapp.business.beans.Blog;
 import com.jerry.android.blogapp.business.Url;
 import com.jerry.android.blogapp.framework.core.HttpEngine;
@@ -24,6 +25,12 @@ public class BlogEditPresenter implements IBlogEditContract.IBlogEditPresenter
         @Override
         public void onSuccess( String json )
         {
+            ApiError error = JsonUtil.deserialize( json, ApiError.class );
+            if(error != null && error.getError() != null){
+                onFailure(error.getError());
+                return;
+            }
+
             Blog blog = JsonUtil.deserialize( json, Blog.class );
             _currentBlog = blog;
 
@@ -35,8 +42,7 @@ public class BlogEditPresenter implements IBlogEditContract.IBlogEditPresenter
                 _view.showBlogDetail( blog );
             }
             else{
-                _view.hideProgress();
-                _view.showError( "Request blog detail failed" );
+                onFailure( "Request blog detail failed" );
             }
 
         }
@@ -70,6 +76,12 @@ public class BlogEditPresenter implements IBlogEditContract.IBlogEditPresenter
         @Override
         public void onSuccess( String json )
         {
+            ApiError error = JsonUtil.deserialize( json, ApiError.class );
+            if(error != null && error.getError() != null){
+                onFailure(error.getError());
+                return;
+            }
+
             Blog blog = JsonUtil.deserialize( json, Blog.class );
 
             if( _view == null)
@@ -79,7 +91,7 @@ public class BlogEditPresenter implements IBlogEditContract.IBlogEditPresenter
                 _view.onSavedBlog( blog );
             }
             else{
-                _view.showError( "Saving blog failed" );
+                onFailure( "Saving blog failed" );
             }
         }
 

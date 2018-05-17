@@ -2,7 +2,7 @@ package com.jerry.android.blogapp.business;
 
 public class Url
 {
-    public static final String Host = "139.196.136.157";
+    public static final String Host = "http://139.196.136.157";
 
     public static final String Api_Blogs = Host + "/api/blogs";
     public static final String Api_Users = Host + "/api/users";

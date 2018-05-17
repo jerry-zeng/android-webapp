@@ -2,6 +2,7 @@ package com.jerry.android.blogapp.business.manage;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jerry.android.blogapp.business.Url;
+import com.jerry.android.blogapp.business.beans.ApiError;
 import com.jerry.android.blogapp.business.beans.Page;
 import com.jerry.android.blogapp.business.beans.User;
 import com.jerry.android.blogapp.framework.core.HttpEngine;
@@ -25,23 +26,29 @@ public class ManageUsersPresenter implements IMangeUsersContract.IManageUsersPre
         @Override
         public void onSuccess( String json )
         {
-            if( _view == null)
+            ApiError error = JsonUtil.deserialize( json, ApiError.class );
+            if(error != null && error.getError() != null){
+                onFailure(error.getError());
                 return;
+            }
 
             JSONObject map = JSONObject.parseObject( json );
 
             Page page = JsonUtil.deserialize( map.getString( "page" ), Page.class );
             List<User> users = JsonUtil.deserializeArray( map.getString( "users" ), User.class );
+            _currentPage = page;
+
+            if( _view == null)
+                return;
 
             if(users != null){
                 _view.hideProgress();
                 _view.addDataList( users );
             }
             else{
-                _view.hideProgress();
-                _view.showError( "Request user list failed" );
+                onFailure( "Request user list failed" );
             }
-            _currentPage = page;
+
         }
 
         @Override

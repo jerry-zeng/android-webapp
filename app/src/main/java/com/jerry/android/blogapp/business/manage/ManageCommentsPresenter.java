@@ -2,6 +2,7 @@ package com.jerry.android.blogapp.business.manage;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jerry.android.blogapp.business.Url;
+import com.jerry.android.blogapp.business.beans.ApiError;
 import com.jerry.android.blogapp.business.beans.Comment;
 import com.jerry.android.blogapp.business.beans.Page;
 import com.jerry.android.blogapp.framework.core.HttpEngine;
@@ -28,6 +29,12 @@ public class ManageCommentsPresenter implements IManageCommentsContract.IManageC
         @Override
         public void onSuccess( String json )
         {
+            ApiError error = JsonUtil.deserialize( json, ApiError.class );
+            if(error != null && error.getError() != null){
+                onFailure(error.getError());
+                return;
+            }
+
             JSONObject map = JSONObject.parseObject( json );
 
             Page page = JsonUtil.deserialize( map.getString( "page" ), Page.class );
@@ -42,8 +49,7 @@ public class ManageCommentsPresenter implements IManageCommentsContract.IManageC
                 _view.addDataList( comments );
             }
             else{
-                _view.hideProgress();
-                _view.showError( "Request comment list failed" );
+                onFailure( "Request comment list failed" );
             }
         }
 
@@ -73,14 +79,23 @@ public class ManageCommentsPresenter implements IManageCommentsContract.IManageC
         @Override
         public void onSuccess( String json )
         {
+            ApiError error = JsonUtil.deserialize( json, ApiError.class );
+            if(error != null && error.getError() != null){
+                onFailure(error.getError());
+                return;
+            }
+
             JSONObject map = JSONObject.parseObject( json );
             String commentId = map.getString( "id" );
+
+            if( _view == null)
+                return;
 
             if(commentId != null){
                 _view.onDeleteComment( commentId );
             }
             else{
-                _view.showError( "Delete comment failed" );
+                onFailure("Delete comment failed");
             }
         }
 

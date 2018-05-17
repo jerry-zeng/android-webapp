@@ -1,5 +1,6 @@
 package com.jerry.android.blogapp.business.user;
 
+import com.jerry.android.blogapp.business.beans.ApiError;
 import com.jerry.android.blogapp.business.beans.User;
 import com.jerry.android.blogapp.business.Url;
 import com.jerry.android.blogapp.framework.core.HttpEngine;
@@ -21,6 +22,12 @@ public class UserDetailPresenter implements IUserDetailContract.IUserPresenter
         @Override
         public void onSuccess( String json )
         {
+            ApiError error = JsonUtil.deserialize( json, ApiError.class );
+            if(error != null && error.getError() != null){
+                onFailure(error.getError());
+                return;
+            }
+
             User user = JsonUtil.deserialize( json, User.class );
             _currentUser = user;
 
@@ -32,8 +39,7 @@ public class UserDetailPresenter implements IUserDetailContract.IUserPresenter
                 _view.showUserDetail( user );
             }
             else{
-                _view.hideProgress();
-                _view.showError( "Request user info failed" );
+                onFailure( "Request user info failed" );
             }
 
         }

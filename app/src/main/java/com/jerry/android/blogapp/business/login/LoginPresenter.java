@@ -1,7 +1,9 @@
 package com.jerry.android.blogapp.business.login;
 
 import com.jerry.android.blogapp.business.Url;
+import com.jerry.android.blogapp.business.beans.ApiError;
 import com.jerry.android.blogapp.business.beans.User;
+import com.jerry.android.blogapp.business.utils.Debug;
 import com.jerry.android.blogapp.framework.core.HttpEngine;
 import com.jerry.android.blogapp.framework.core.JsonUtil;
 
@@ -26,16 +28,26 @@ public class LoginPresenter implements ILoginContract.ILoginPresenter
         @Override
         public void onSuccess( String json )
         {
+            Debug.print( "onLoginCallback:\n" + json );
+
+            ApiError error = JsonUtil.deserialize( json, ApiError.class );
+            if(error != null && error.getError() != null){
+                onFailure(error.getError());
+                return;
+            }
+
             User user = JsonUtil.deserialize( json, User.class );
             _currentUser = user;
+
+            if(_view == null)
+                return;
 
             if(user != null){
                 _view.hideProgress();
                 _view.onLogin( user );
             }
             else{
-                _view.hideProgress();
-                _view.showError( "Login failed" );
+                onFailure("Login failed");
             }
         }
 

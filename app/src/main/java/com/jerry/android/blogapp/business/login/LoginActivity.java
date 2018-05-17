@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jerry.android.blogapp.R;
+import com.jerry.android.blogapp.business.MyApplication;
 import com.jerry.android.blogapp.business.beans.User;
 import com.jerry.android.blogapp.business.utils.Debug;
 import com.jerry.android.blogapp.framework.BaseAppCompatActivity;
@@ -98,6 +99,8 @@ public class LoginActivity extends BaseAppCompatActivity implements ILoginContra
     @Override
     public void onLogin( User user )
     {
+        MyApplication.getInstance().setCurrentUser( user );
+
         Debug.log( TAG, user.toString() );
         showToast( "onLogin: " + user.getName() );
     }
@@ -197,8 +200,8 @@ public class LoginActivity extends BaseAppCompatActivity implements ILoginContra
         mPasswordView.setError( null );
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        String email = mEmailView.getText().toString().trim();
+        String password = mPasswordView.getText().toString().trim();
 
         View focusView = null;
 
@@ -235,7 +238,8 @@ public class LoginActivity extends BaseAppCompatActivity implements ILoginContra
     private boolean isPasswordValid( String password )
     {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        int length = password.length();
+        return length >= 4 && length <= 16;
     }
 
 

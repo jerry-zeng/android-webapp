@@ -1,5 +1,6 @@
 package com.jerry.android.blogapp.business.blog;
 
+import com.jerry.android.blogapp.business.beans.ApiError;
 import com.jerry.android.blogapp.business.beans.Blog;
 import com.jerry.android.blogapp.business.beans.Comment;
 import com.jerry.android.blogapp.business.Url;
@@ -26,6 +27,12 @@ public class BlogDetailPresenter implements IBlogDetailContract.IBlogDetailPrese
         @Override
         public void onSuccess( String json )
         {
+            ApiError error = JsonUtil.deserialize( json, ApiError.class );
+            if(error != null && error.getError() != null){
+                onFailure(error.getError());
+                return;
+            }
+
             Blog blog = JsonUtil.deserialize( json, Blog.class );
             _currentBlog = blog;
 
@@ -37,8 +44,7 @@ public class BlogDetailPresenter implements IBlogDetailContract.IBlogDetailPrese
                 _view.showBlogDetail( blog );
             }
             else{
-                _view.hideProgress();
-                _view.showError( "Request blog detail failed" );
+                onFailure( "Request blog detail failed" );
             }
 
         }
@@ -73,6 +79,12 @@ public class BlogDetailPresenter implements IBlogDetailContract.IBlogDetailPrese
         @Override
         public void onSuccess( String json )
         {
+            ApiError error = JsonUtil.deserialize( json, ApiError.class );
+            if(error != null && error.getError() != null){
+                onFailure(error.getError());
+                return;
+            }
+
             Comment comment = JsonUtil.deserialize( json, Comment.class );
 
             if( _view == null)
@@ -82,7 +94,7 @@ public class BlogDetailPresenter implements IBlogDetailContract.IBlogDetailPrese
                 _view.addComment( comment );
             }
             else{
-                _view.showError( "Sending comment failed" );
+                onFailure( "Sending comment failed" );
             }
         }
 

@@ -1,6 +1,7 @@
 package com.jerry.android.blogapp.business.blogs;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jerry.android.blogapp.business.beans.ApiError;
 import com.jerry.android.blogapp.business.beans.Blog;
 import com.jerry.android.blogapp.business.beans.Page;
 import com.jerry.android.blogapp.business.Url;
@@ -25,6 +26,12 @@ public class BlogsPresenter implements IBlogsContract.IBlogsPresenter
         @Override
         public void onSuccess( String json )
         {
+            ApiError error = JsonUtil.deserialize( json, ApiError.class );
+            if(error != null && error.getError() != null){
+                onFailure(error.getError());
+                return;
+            }
+
             JSONObject map = JSONObject.parseObject( json );
 
             Page page = JsonUtil.deserialize( map.getString( "page" ), Page.class );
@@ -39,8 +46,7 @@ public class BlogsPresenter implements IBlogsContract.IBlogsPresenter
                 _view.addDataList( blogs );
             }
             else{
-                _view.hideProgress();
-                _view.showError( "Request blog list failed" );
+                onFailure( "Request blog list failed" );
             }
 
         }

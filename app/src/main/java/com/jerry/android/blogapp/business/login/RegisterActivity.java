@@ -176,14 +176,14 @@ public class RegisterActivity extends BaseAppCompatActivity implements IRegister
         mPasswordView2.setError( null );
 
         // Store values at the time of the login attempt.
-        String name = mNameView.getText().toString();
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
-        String password2 = mPasswordView2.getText().toString();
+        String name = mNameView.getText().toString().trim();
+        String email = mEmailView.getText().toString().trim();
+        String password = mPasswordView.getText().toString().trim();
+        String password2 = mPasswordView2.getText().toString().trim();
 
         View focusView = null;
 
-        if( TextUtils.isEmpty( name ) ){
+        if( !isNameValid( name ) ){
             mNameView.setError( getString( R.string.error_field_required ) );
             focusView = mNameView;
         }
@@ -233,6 +233,6 @@ public class RegisterActivity extends BaseAppCompatActivity implements IRegister
     {
         //TODO: Replace this with your own logic
         int length = password.length();
-        return length >= 6 && length <= 16;
+        return length >= 4 && length <= 16;
     }
 }
