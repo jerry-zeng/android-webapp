@@ -31,4 +31,10 @@ public class ExampleUnitTest {
         Debug.Log( Tools.getMd5( "admin" ) );
         assertEquals( "21232f297a57a5a743894a0e4a801fc3", Tools.getMd5( "admin" ) );
     }
+
+    @Test
+    public void time_test(){
+        Debug.Log( "time: 1526580414" );
+        Debug.Log( Tools.formatDateShort( 1526580414 ) );
+    }
 }

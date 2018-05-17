@@ -5,6 +5,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import java.security.MessageDigest;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Description :
@@ -132,4 +135,26 @@ public class Tools
 			throw new RuntimeException(e);
 		}
 	}
+
+	public static String formatTime(long unixTime)
+	{
+		Time time = new Time( unixTime );
+		return String.format( "%d年%月%日 %02d%02d%02d", time.getYear(), time.getMonth(), time.getDay(), time.getHours(), time.getMinutes(), time.getSeconds() );
+	}
+
+	public static String formatDateShort(long unixTime)
+	{
+		Date date = new Date( unixTime );
+		SimpleDateFormat format = new SimpleDateFormat( "MM-dd" );
+		return format.format( date );
+	}
+
+	public static String formatDate(long unixTime)
+	{
+		Date date = new Date( unixTime );
+		SimpleDateFormat format = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
+		return format.format( date );
+	}
+
+
 }
