@@ -9,9 +9,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -63,18 +61,20 @@ public class MainActivity extends BaseAppCompatActivity
         // hide manage button.
         User user = MyApplication.getInstance().getCurrentUser();
         if( user != null && user.isAdmin() ){
-            mNavigationView.getMenu().getItem( R.id.nav_manage ).setVisible( true );
+            mNavigationView.getMenu().getItem( 1 ).setVisible( true );
         }
         else{
-            mNavigationView.getMenu().getItem( R.id.nav_manage ).setVisible( false );
+            mNavigationView.getMenu().getItem( 1 ).setVisible( false );
         }
 
-        if(user != null){
-            ImageView icon = (ImageView)mNavigationView.getHeaderView( 0 );
-            TextView lab_name = (TextView)mNavigationView.getHeaderView( 1 );
-            ImageLoader.display( this, icon, user.getImage() );
-            lab_name.setText( user.getName() );
-        }
+//        if(user != null){
+//            ImageView icon = (ImageView)mNavigationView.getHeaderView( 1 );
+//            TextView lab_name = (TextView)mNavigationView.getHeaderView( 2 );
+//            ImageLoader.display( this, icon, user.getImage() );
+//            lab_name.setText( user.getName() );
+//        }
+
+        focusOnBlogs();
     }
 
     @Override
@@ -122,5 +122,12 @@ public class MainActivity extends BaseAppCompatActivity
     {
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_content, new BlogsFragment()).commit();
         mToolbar.setTitle( "Blog" );
+        mToolbar.setVisibility( View.INVISIBLE );
+    }
+
+    void focusOnManage()
+    {
+        mToolbar.setTitle( "Manage" );
+        mToolbar.setVisibility( View.VISIBLE );
     }
 }

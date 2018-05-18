@@ -59,7 +59,7 @@ public class BlogDetailActivity extends BaseSwipeBackActivity implements IBlogDe
         labAuthor = (TextView)findViewById( R.id.lab_author );
         layoutComment = (LinearLayout)findViewById( R.id.list_comment );
         inputComment = (EditText)findViewById( R.id.input_comment );
-        btnSubmit = (Button)findViewById( R.id.btn_submit );
+        btnSubmit = (Button)findViewById( R.id.btn_comment );
         btnSubmit.setOnClickListener( new View.OnClickListener()
         {
             @Override

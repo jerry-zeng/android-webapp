@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.jerry.android.blogapp.R;
 import com.jerry.android.blogapp.business.beans.Blog;
@@ -127,15 +128,15 @@ public class BlogsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private class ItemViewHolder extends RecyclerView.ViewHolder
     {
-        public EditText labTitle;
-        public EditText labSummary;
+        public TextView labTitle;
+        public TextView labSummary;
 
         public ItemViewHolder( View itemView )
         {
             super( itemView );
 
-            labTitle = (EditText)itemView.findViewById( R.id.lab_time );
-            labSummary = (EditText)itemView.findViewById( R.id.lab_summary );
+            labTitle = (TextView)itemView.findViewById( R.id.lab_title );
+            labSummary = (TextView)itemView.findViewById( R.id.lab_summary );
 
             itemView.setOnClickListener( new View.OnClickListener()
             {

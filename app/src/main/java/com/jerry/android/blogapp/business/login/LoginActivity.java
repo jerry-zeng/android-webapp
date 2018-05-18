@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jerry.android.blogapp.R;
+import com.jerry.android.blogapp.business.MainActivity;
 import com.jerry.android.blogapp.business.MyApplication;
 import com.jerry.android.blogapp.business.beans.User;
 import com.jerry.android.blogapp.business.utils.Debug;
@@ -102,7 +103,11 @@ public class LoginActivity extends BaseAppCompatActivity implements ILoginContra
         MyApplication.getInstance().setCurrentUser( user );
 
         Debug.log( TAG, user.toString() );
-        showToast( "onLogin: " + user.getName() );
+
+        Intent intent = new Intent( LoginActivity.this, MainActivity.class );
+        startActivity( intent );
+
+        finish();
     }
 
     @Override
@@ -231,13 +236,11 @@ public class LoginActivity extends BaseAppCompatActivity implements ILoginContra
 
     private boolean isEmailValid( String email )
     {
-        //TODO: Replace this with your own logic
         return email.contains( "@" );
     }
 
     private boolean isPasswordValid( String password )
     {
-        //TODO: Replace this with your own logic
         int length = password.length();
         return length >= 4 && length <= 16;
     }
