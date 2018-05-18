@@ -80,7 +80,11 @@
                 android:gravity="right"
                 android:text="@string/prompt_register"
                 android:textColor="#22bb00"/>
+
         </LinearLayout>
+
+
+
     </ScrollView>
 
 </LinearLayout>

@@ -1,13 +1,16 @@
 package com.jerry.android.blogapp.business.blog;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jerry.android.blogapp.business.beans.ApiError;
 import com.jerry.android.blogapp.business.beans.Blog;
 import com.jerry.android.blogapp.business.beans.Comment;
 import com.jerry.android.blogapp.business.Url;
+import com.jerry.android.blogapp.business.beans.Page;
 import com.jerry.android.blogapp.framework.core.HttpEngine;
 import com.jerry.android.blogapp.framework.core.JsonUtil;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BlogDetailPresenter implements IBlogDetailContract.IBlogDetailPresenter
@@ -15,6 +18,7 @@ public class BlogDetailPresenter implements IBlogDetailContract.IBlogDetailPrese
     private IBlogDetailContract.IBlogDetailView _view;
     private Blog _currentBlog;
     private boolean _isWorking = false;
+    private Page _currentPage;
 
     public BlogDetailPresenter(IBlogDetailContract.IBlogDetailView detailView)
     {
@@ -73,6 +77,55 @@ public class BlogDetailPresenter implements IBlogDetailContract.IBlogDetailPrese
             _view.showProgress();
     }
 
+    private HttpEngine.HttpCallback onLoadCommentCallback = new HttpEngine.HttpCallback()
+    {
+        @Override
+        public void onSuccess( String json )
+        {
+            ApiError error = JsonUtil.deserialize( json, ApiError.class );
+            if(error != null && error.getError() != null){
+                onFailure(error.getError());
+                return;
+            }
+
+            JSONObject map = JSONObject.parseObject( json );
+
+            Page page = JsonUtil.deserialize( map.getString( "page" ), Page.class );
+            List<Comment> comments = JsonUtil.deserializeArray( map.getString( "comments" ), Comment.class );
+            _currentPage = page;
+
+            if( _view == null)
+                return;
+
+            if(comments != null){
+                _view.hideProgress();
+                _view.showComments( comments );
+            }
+            else{
+                onFailure( "Request comment list failed" );
+            }
+        }
+
+        @Override
+        public void onFailure( String reason )
+        {
+            if( _view == null)
+                return;
+
+            _view.hideProgress();
+            _view.showLoadFailMsg();
+        }
+    };
+
+    @Override
+    public void loadBlogComments()
+    {
+        String url = Url.Api_Blogs + "/" + _currentBlog.getId() + "/comments";
+        HttpEngine.getInstance().Get( url, this.onLoadCommentCallback );
+
+        //if( _view != null)
+        //    _view.showProgress();
+    }
 
     private HttpEngine.HttpCallback onSendCommentCallback = new HttpEngine.HttpCallback()
     {
