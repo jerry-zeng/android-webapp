@@ -134,7 +134,7 @@ public class BlogDetailActivity extends BaseSwipeBackActivity implements IBlogDe
     {
         Debug.log( TAG, comment.toString() );
 
-        View commentView = LayoutInflater.from(mContext).inflate(R.layout.comment_item, layoutComment, false);
+        View commentView = LayoutInflater.from(mContext).inflate(R.layout.item_comment, layoutComment, false);
         ImageView icon = (ImageView)commentView.findViewById( R.id.icon );
         TextView lab_name = (TextView)commentView.findViewById( R.id.lab_name );
         TextView lab_time = (TextView)commentView.findViewById( R.id.lab_time );

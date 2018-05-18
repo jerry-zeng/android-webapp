@@ -91,4 +91,10 @@ public class BlogsPresenter implements IBlogsContract.IBlogsPresenter
     {
         return _isWorking;
     }
+
+    @Override
+    public Page getCurrentPage()
+    {
+        return _currentPage;
+    }
 }
