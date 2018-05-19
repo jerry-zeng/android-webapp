@@ -3,6 +3,7 @@ package com.jerry.android.blogapp.business.manage;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,12 +24,13 @@ import com.jerry.android.blogapp.framework.BaseFragment;
 
 import java.util.List;
 
-public class ManageBlogsFragment extends BaseFragment implements IManageBlogsContract.IManageBlogsView
+public class ManageBlogsFragment extends BaseFragment implements IManageBlogsContract.IManageBlogsView, SwipeRefreshLayout.OnRefreshListener
 {
     private static final String TAG = "ManageBlogsFragment";
 
     private IManageBlogsContract.IManageBlogsPresenter _presenter;
 
+    private SwipeRefreshLayout mSwipeRefreshWidget;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private ManageBlogsAdapter mAdapter;
@@ -57,6 +59,12 @@ public class ManageBlogsFragment extends BaseFragment implements IManageBlogsCon
     public View onCreateView( LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState )
     {
         View view = inflater.inflate( R.layout.fragment_manage_blog, null );
+
+        mSwipeRefreshWidget = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_widget);
+        mSwipeRefreshWidget.setColorSchemeResources(R.color.primary,
+                R.color.primary_dark, R.color.primary_light,
+                R.color.accent);
+        mSwipeRefreshWidget.setOnRefreshListener(this);
 
         mLayoutManager = new LinearLayoutManager(getActivity());
 
@@ -152,7 +160,7 @@ public class ManageBlogsFragment extends BaseFragment implements IManageBlogsCon
     }
 
     // swipe to reload
-
+    @Override
     public void onRefresh()
     {
         mAdapter.setShowFooter( true );
