@@ -17,13 +17,15 @@ import com.jerry.android.blogapp.R;
 import com.jerry.android.blogapp.business.beans.User;
 import com.jerry.android.blogapp.business.blogs.BlogsFragment;
 import com.jerry.android.blogapp.business.edit.BlogEditActivity;
+import com.jerry.android.blogapp.business.manage.ManageFragment;
 import com.jerry.android.blogapp.business.utils.ImageLoader;
 import com.jerry.android.blogapp.framework.BaseAppCompatActivity;
 
 public class MainActivity extends BaseAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
 {
-    private final static int REQUEST_CREATE_BLOG = 2; // 返回的结果码.
+    public final static int REQUEST_CREATE_BLOG = 2; // 返回的结果码.
+    public final static int REQUEST_EDIT_BLOG = 3; // 返回的结果码.
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -106,7 +108,7 @@ public class MainActivity extends BaseAppCompatActivity
         else if( id == R.id.nav_manage ){
             User user = MyApplication.getInstance().getCurrentUser();
             if(user != null && user.isAdmin()){
-                showToast( "Show manage page" );
+                focusOnManage();
             }
             else
             {
@@ -132,6 +134,7 @@ public class MainActivity extends BaseAppCompatActivity
 
     void focusOnManage()
     {
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_content, new ManageFragment()).commit();
         mToolbar.setTitle( "Manage" );
         //mToolbar.setVisibility( View.VISIBLE );
         btnCreateBlog.setVisibility( View.INVISIBLE );

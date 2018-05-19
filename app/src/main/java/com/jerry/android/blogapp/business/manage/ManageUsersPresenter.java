@@ -91,4 +91,10 @@ public class ManageUsersPresenter implements IMangeUsersContract.IManageUsersPre
     {
         return _isWorking;
     }
+
+    @Override
+    public Page getCurrentPage()
+    {
+        return _currentPage;
+    }
 }

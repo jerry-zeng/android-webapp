@@ -71,22 +71,24 @@ public class BlogDetailActivity extends BaseSwipeBackActivity implements IBlogDe
 
         mProgressView = findViewById( R.id.progressBar );
 
-
         _presenter = new BlogDetailPresenter( this );
         _presenter.start();
 
-        // get blog id from previous Activity.
-        Intent intent = getIntent();
-        //String blogId = intent.getStringExtra( "blogId" );
-        //_presenter.loadBlogDetail( blogId );
-
-        Blog blog = (Blog)intent.getSerializableExtra( "blog" );
-        _presenter.setCurrentBlog( blog );
-
-        showBlogDetail( blog );
-
         commentItemList = new ArrayList<>();
         mContext = this;
+
+        // get blog id from previous Activity.
+        Intent intent = getIntent();
+
+        if(intent.hasExtra( "blog" )){
+            Blog blog = (Blog)intent.getSerializableExtra( "blog" );
+            _presenter.setCurrentBlog( blog );
+            showBlogDetail( blog );
+        }
+        else{
+            String blogId = intent.getStringExtra( "blogId" );
+            _presenter.loadBlogDetail( blogId );
+        }
     }
 
     @Override

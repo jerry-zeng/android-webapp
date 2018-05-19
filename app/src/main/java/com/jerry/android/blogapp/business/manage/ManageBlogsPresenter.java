@@ -142,4 +142,10 @@ public class ManageBlogsPresenter implements IManageBlogsContract.IManageBlogsPr
     {
         return _isWorking;
     }
+
+    @Override
+    public Page getCurrentPage()
+    {
+        return _currentPage;
+    }
 }

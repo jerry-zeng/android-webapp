@@ -141,4 +141,10 @@ public class ManageCommentsPresenter implements IManageCommentsContract.IManageC
     {
         return _isWorking;
     }
+
+    @Override
+    public Page getCurrentPage()
+    {
+        return _currentPage;
+    }
 }

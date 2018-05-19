@@ -1,6 +1,7 @@
 package com.jerry.android.blogapp.business.manage;
 
 import com.jerry.android.blogapp.business.beans.Comment;
+import com.jerry.android.blogapp.business.beans.Page;
 import com.jerry.android.blogapp.framework.IBasePresenter;
 import com.jerry.android.blogapp.framework.IBaseView;
 
@@ -12,6 +13,7 @@ public interface IManageCommentsContract
     {
         void loadData(int page, int size);
         void delete(String commentId);
+        Page getCurrentPage();
     }
 
     public interface IManageCommentsView extends IBaseView<IManageCommentsPresenter>

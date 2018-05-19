@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jerry.android.blogapp.R;
+import com.jerry.android.blogapp.business.BaseRecyclerViewAdapter;
 import com.jerry.android.blogapp.business.Url;
 import com.jerry.android.blogapp.business.beans.Blog;
 import com.jerry.android.blogapp.business.beans.Page;
@@ -19,8 +20,6 @@ import com.jerry.android.blogapp.business.blog.BlogDetailActivity;
 import com.jerry.android.blogapp.framework.BaseFragment;
 
 import java.util.List;
-
-import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 
 public class BlogsFragment extends BaseFragment implements IBlogsContract.IBlogsView, SwipeRefreshLayout.OnRefreshListener
@@ -74,7 +73,7 @@ public class BlogsFragment extends BaseFragment implements IBlogsContract.IBlogs
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         mAdapter = new BlogsAdapter(getActivity().getApplicationContext());
-        mAdapter.setOnItemClickListener(new BlogsAdapter.OnItemClickListener(){
+        mAdapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener(){
             @Override
             public void onItemClick( View view, int position )
             {
@@ -94,6 +93,13 @@ public class BlogsFragment extends BaseFragment implements IBlogsContract.IBlogs
             private int lastVisibleItem = 0;
 
             @Override
+            public void onScrolled( RecyclerView recyclerView, int dx, int dy )
+            {
+                super.onScrolled( recyclerView, dx, dy );
+                lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
+            }
+
+            @Override
             public void onScrollStateChanged( RecyclerView recyclerView, int newState )
             {
                 super.onScrollStateChanged( recyclerView, newState );
@@ -110,13 +116,6 @@ public class BlogsFragment extends BaseFragment implements IBlogsContract.IBlogs
                     }
                 }
             }
-
-            @Override
-            public void onScrolled( RecyclerView recyclerView, int dx, int dy )
-            {
-                super.onScrolled( recyclerView, dx, dy );
-                lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
-            }
         } );
 
         onRefresh();
@@ -127,18 +126,7 @@ public class BlogsFragment extends BaseFragment implements IBlogsContract.IBlogs
     @Override
     public void addDataList( List<Blog> list )
     {
-        //mAdapter.setShowFooter(true);
-
-        Page page = _presenter.getCurrentPage();
-        if(page == null || page.getPage_index() == 1){
-            mAdapter.setDataList( list );
-        }
-        else{
-            mAdapter.addDataList( list );
-
-            if(list == null || list.size() == 0)
-                mAdapter.setShowFooter(false);
-        }
+        mAdapter.addDataList( list );
     }
 
     // swipe to reload
@@ -153,10 +141,7 @@ public class BlogsFragment extends BaseFragment implements IBlogsContract.IBlogs
     @Override
     public void showLoadFailMsg()
     {
-        if(_presenter.getCurrentPage() != null && _presenter.getCurrentPage().getPage_index() == 1) {
-
-        }
-        mAdapter.setShowFooter(false);
+        hideProgress();
     }
 
     @Override
@@ -169,7 +154,7 @@ public class BlogsFragment extends BaseFragment implements IBlogsContract.IBlogs
     public void showError( String msg )
     {
         showToast( msg );
-        mAdapter.setShowFooter(false);
+        hideProgress();
     }
 
     @Override
@@ -182,6 +167,7 @@ public class BlogsFragment extends BaseFragment implements IBlogsContract.IBlogs
     public void hideProgress()
     {
         mSwipeRefreshWidget.setRefreshing(false);
+        mAdapter.setShowFooter(false);
     }
 
 }
