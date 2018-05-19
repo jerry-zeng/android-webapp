@@ -235,6 +235,7 @@ public class BlogDetailActivity extends BaseSwipeBackActivity implements IBlogDe
         }
         else{
             _presenter.sendComment( comment );
+            inputComment.setText( "" );
         }
     }
 }

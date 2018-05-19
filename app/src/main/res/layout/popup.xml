@@ -12,7 +12,7 @@
         android:paddingRight="20dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:text="删除"
+        android:text="@string/action_delete"
         android:textSize="24sp" />
 
 </LinearLayout>

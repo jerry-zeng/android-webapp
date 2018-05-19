@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BlogApp</string>
+    <string name="app_name">Cool Blog</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -35,4 +35,5 @@
     <string name="prompt_comment">Say something...</string>
 
     <string name="no_data_tip">No data</string>
+    <string name="action_delete">Delete</string>
 </resources>
