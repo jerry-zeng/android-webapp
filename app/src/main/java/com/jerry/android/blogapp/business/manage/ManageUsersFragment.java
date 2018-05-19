@@ -53,7 +53,7 @@ public class ManageUsersFragment extends BaseFragment implements IMangeUsersCont
     @Override
     public View onCreateView( LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState )
     {
-        View view = inflater.inflate( R.layout.fragment_manage_blog, null );
+        View view = inflater.inflate( R.layout.fragment_manage_user, null );
 
         mLayoutManager = new LinearLayoutManager(getActivity());
 
@@ -124,6 +124,20 @@ public class ManageUsersFragment extends BaseFragment implements IMangeUsersCont
     public void addDataList( List<User> list )
     {
         mAdapter.addDataList( list );
+
+        Page page = _presenter.getCurrentPage();
+        if( page != null && !page.isHas_next() ){
+            mAdapter.setShowFooter( false );
+        }
+    }
+
+    // swipe to reload
+
+    public void onRefresh()
+    {
+        mAdapter.setShowFooter( true );
+        mAdapter.clearData();
+        _presenter.loadData(1, Url.PAZE_SIZE);
     }
 
     @Override
@@ -154,14 +168,6 @@ public class ManageUsersFragment extends BaseFragment implements IMangeUsersCont
     @Override
     public void hideProgress()
     {
-        mAdapter.setShowFooter(false);
-    }
 
-    // swipe to reload
-
-    public void onRefresh()
-    {
-        mAdapter.clearData();
-        _presenter.loadData(1, Url.PAZE_SIZE);
     }
 }

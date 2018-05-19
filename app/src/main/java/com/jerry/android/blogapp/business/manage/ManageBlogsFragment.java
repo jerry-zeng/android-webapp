@@ -141,6 +141,20 @@ public class ManageBlogsFragment extends BaseFragment implements IManageBlogsCon
     public void addDataList( List<Blog> list )
     {
         mAdapter.addDataList( list );
+
+        Page page = _presenter.getCurrentPage();
+        if( page != null && !page.isHas_next() ){
+            mAdapter.setShowFooter( false );
+        }
+    }
+
+    // swipe to reload
+
+    public void onRefresh()
+    {
+        mAdapter.setShowFooter( true );
+        mAdapter.clearData();
+        _presenter.loadData(1, Url.PAZE_SIZE);
     }
 
     @Override
@@ -177,15 +191,6 @@ public class ManageBlogsFragment extends BaseFragment implements IManageBlogsCon
     @Override
     public void hideProgress()
     {
-        mAdapter.setShowFooter(false);
+
     }
-
-    // swipe to reload
-
-    public void onRefresh()
-    {
-        mAdapter.clearData();
-        _presenter.loadData(1, Url.PAZE_SIZE);
-    }
-
 }

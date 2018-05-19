@@ -110,7 +110,7 @@ public class BlogsFragment extends BaseFragment implements IBlogsContract.IBlogs
 
                     if( !_presenter.isWorking() ){
                         Page page = _presenter.getCurrentPage();
-                        if(page != null && page.isHas_next()){
+                        if( page != null && page.isHas_next() ){
                             _presenter.loadData( page.getPage_index() + 1, Url.PAZE_SIZE );
                         }
                     }
@@ -127,12 +127,18 @@ public class BlogsFragment extends BaseFragment implements IBlogsContract.IBlogs
     public void addDataList( List<Blog> list )
     {
         mAdapter.addDataList( list );
+
+        Page page = _presenter.getCurrentPage();
+        if( page != null && !page.isHas_next() ){
+            mAdapter.setShowFooter( false );
+        }
     }
 
     // swipe to reload
     @Override
     public void onRefresh()
     {
+        mAdapter.setShowFooter( true );
         mAdapter.clearData();
         _presenter.loadData(1, Url.PAZE_SIZE);
     }
@@ -167,7 +173,6 @@ public class BlogsFragment extends BaseFragment implements IBlogsContract.IBlogs
     public void hideProgress()
     {
         mSwipeRefreshWidget.setRefreshing(false);
-        mAdapter.setShowFooter(false);
     }
 
 }

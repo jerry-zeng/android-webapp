@@ -53,7 +53,7 @@ public class ManageCommentsFragment extends BaseFragment implements IManageComme
     @Override
     public View onCreateView( LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState )
     {
-        View view = inflater.inflate( R.layout.fragment_manage_blog, null );
+        View view = inflater.inflate( R.layout.fragment_manage_comment, null );
 
         mLayoutManager = new LinearLayoutManager(getActivity());
 
@@ -124,6 +124,20 @@ public class ManageCommentsFragment extends BaseFragment implements IManageComme
     public void addDataList( List<Comment> list )
     {
         mAdapter.addDataList( list );
+
+        Page page = _presenter.getCurrentPage();
+        if( page != null && !page.isHas_next() ){
+            mAdapter.setShowFooter( false );
+        }
+    }
+
+    // swipe to reload
+
+    public void onRefresh()
+    {
+        mAdapter.setShowFooter( true );
+        mAdapter.clearData();
+        _presenter.loadData(1, Url.PAZE_SIZE);
     }
 
     @Override
@@ -161,14 +175,7 @@ public class ManageCommentsFragment extends BaseFragment implements IManageComme
     @Override
     public void hideProgress()
     {
-        mAdapter.setShowFooter(false);
+
     }
 
-    // swipe to reload
-
-    public void onRefresh()
-    {
-        mAdapter.clearData();
-        _presenter.loadData(1, Url.PAZE_SIZE);
-    }
 }
