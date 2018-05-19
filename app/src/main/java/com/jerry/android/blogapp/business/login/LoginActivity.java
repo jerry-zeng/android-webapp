@@ -3,7 +3,9 @@ package com.jerry.android.blogapp.business.login;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -85,6 +87,8 @@ public class LoginActivity extends BaseAppCompatActivity implements ILoginContra
 
         _presenter = new LoginPresenter( this );
         _presenter.start();
+
+        loadAccount();
     }
 
     @Override
@@ -101,6 +105,7 @@ public class LoginActivity extends BaseAppCompatActivity implements ILoginContra
     public void onLogin( User user )
     {
         MyApplication.getInstance().setCurrentUser( user );
+        saveAccount();
 
         Debug.log( TAG, user.toString() );
 
@@ -246,4 +251,23 @@ public class LoginActivity extends BaseAppCompatActivity implements ILoginContra
     }
 
 
+    private void saveAccount()
+    {
+        String email = mEmailView.getText().toString().trim();
+        String password = mPasswordView.getText().toString().trim();
+
+        SharedPreferences sp = getApplicationContext().getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("email", email);
+        editor.putString("password", password);
+        editor.commit();
+    }
+    private void loadAccount()
+    {
+        SharedPreferences sp = getApplicationContext().getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+        String email = sp.getString("email", "");
+        String password = sp.getString("password", "");
+        mEmailView.setText( email );
+        mPasswordView.setText( password );
+    }
 }
