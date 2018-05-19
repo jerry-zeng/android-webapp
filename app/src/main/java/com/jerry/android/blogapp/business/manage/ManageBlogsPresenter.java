@@ -5,6 +5,7 @@ import com.jerry.android.blogapp.business.beans.ApiError;
 import com.jerry.android.blogapp.business.beans.Blog;
 import com.jerry.android.blogapp.business.beans.Page;
 import com.jerry.android.blogapp.business.Url;
+import com.jerry.android.blogapp.business.utils.Debug;
 import com.jerry.android.blogapp.framework.core.HttpEngine;
 import com.jerry.android.blogapp.framework.core.JsonUtil;
 
@@ -34,6 +35,8 @@ public class ManageBlogsPresenter implements IManageBlogsContract.IManageBlogsPr
                 onFailure(error.getError());
                 return;
             }
+
+            Debug.print( "ManageBlogsPresenter.onLoadDataCallback:\n" + json );
 
             JSONObject map = JSONObject.parseObject( json );
 
@@ -85,6 +88,8 @@ public class ManageBlogsPresenter implements IManageBlogsContract.IManageBlogsPr
                 onFailure(error.getError());
                 return;
             }
+
+            Debug.print( "ManageBlogsPresenter.onDeleteBlogCallback:\n" + json );
 
             JSONObject map = JSONObject.parseObject( json );
             String blogId = map.getString( "id" );

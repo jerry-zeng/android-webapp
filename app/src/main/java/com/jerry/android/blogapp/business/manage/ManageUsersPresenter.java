@@ -5,6 +5,7 @@ import com.jerry.android.blogapp.business.Url;
 import com.jerry.android.blogapp.business.beans.ApiError;
 import com.jerry.android.blogapp.business.beans.Page;
 import com.jerry.android.blogapp.business.beans.User;
+import com.jerry.android.blogapp.business.utils.Debug;
 import com.jerry.android.blogapp.framework.core.HttpEngine;
 import com.jerry.android.blogapp.framework.core.JsonUtil;
 
@@ -31,6 +32,8 @@ public class ManageUsersPresenter implements IMangeUsersContract.IManageUsersPre
                 onFailure(error.getError());
                 return;
             }
+
+            Debug.print( "ManageUsersPresenter.onLoadDataCallback:\n" + json );
 
             JSONObject map = JSONObject.parseObject( json );
 

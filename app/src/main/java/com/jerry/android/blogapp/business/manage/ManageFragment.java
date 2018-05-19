@@ -34,7 +34,7 @@ public class ManageFragment extends BaseFragment
         View view = inflater.inflate( R.layout.fragment_manage, null);
 
         mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        mViewPager.setOffscreenPageLimit(2);
+        //mViewPager.setOffscreenPageLimit(2);
 
         //Fragment中嵌套使用Fragment一定要使用getChildFragmentManager(),否则会有问题.
         MyPageAdapter mAdapter = new MyPageAdapter(getChildFragmentManager());

@@ -14,24 +14,43 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/lab_title"
+            android:id="@+id/lab_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="3"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:textColor="@color/primary_text"
             android:textSize="@dimen/sn_16sp"
-            android:singleLine="true"
-            android:paddingLeft="5dp"/>
+            android:maxLines="1"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textStyle="bold"
+            android:text="Jerry"/>
 
         <TextView
-            android:id="@+id/lab_summary"
+            android:id="@+id/lab_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_weight="2"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/sn_14sp"
+            android:maxLines="1"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="Email"/>
+
+        <TextView
+            android:id="@+id/lab_last_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:singleLine="true"
+            android:text="2018-5-19"
             android:textColor="@color/secondary_text"
-            android:maxLines="2"
-            android:textSize="@dimen/sn_12sp"
-            android:paddingLeft="5dp"/>
+            android:textSize="@dimen/sn_14sp" />
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

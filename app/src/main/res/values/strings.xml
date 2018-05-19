@@ -33,4 +33,6 @@
     <string name="prompt_content">Input the content</string>
     <string name="action_submit">Submit</string>
     <string name="prompt_comment">Say something...</string>
+
+    <string name="no_data_tip">No data</string>
 </resources>

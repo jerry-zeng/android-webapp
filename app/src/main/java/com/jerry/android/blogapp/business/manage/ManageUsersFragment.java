@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.jerry.android.blogapp.R;
 import com.jerry.android.blogapp.business.BaseRecyclerViewAdapter;
@@ -30,6 +31,7 @@ public class ManageUsersFragment extends BaseFragment implements IMangeUsersCont
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private ManageUsersAdapter mAdapter;
+    private TextView lab_tip;
 
     @Override
     public void onCreate( @Nullable Bundle savedInstanceState )
@@ -117,12 +119,15 @@ public class ManageUsersFragment extends BaseFragment implements IMangeUsersCont
 
         onRefresh();
 
+        lab_tip = (TextView)view.findViewById( R.id.lab_tip );
+
         return view;
     }
 
     @Override
     public void addDataList( List<User> list )
     {
+        Debug.log( TAG, "addDataList: " + Integer.toString( list.size() ) );
         mAdapter.addDataList( list );
 
         Page page = _presenter.getCurrentPage();

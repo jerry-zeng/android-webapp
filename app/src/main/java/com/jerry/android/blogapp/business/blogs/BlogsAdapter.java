@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.jerry.android.blogapp.R;
 import com.jerry.android.blogapp.business.BaseRecyclerViewAdapter;
 import com.jerry.android.blogapp.business.beans.Blog;
+import com.jerry.android.blogapp.business.utils.Debug;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class BlogsAdapter extends BaseRecyclerViewAdapter<Blog>
     }
 
     @Override
-    protected MyItemViewHolder onCreateCustomViewHolder( ViewGroup parent, int viewType )
+    protected ItemViewHolder onCreateCustomViewHolder( ViewGroup parent, int viewType )
     {
         View view = LayoutInflater.from( _context ).inflate( R.layout.item_blog, parent, false );
         return new MyItemViewHolder( view );
@@ -32,6 +33,7 @@ public class BlogsAdapter extends BaseRecyclerViewAdapter<Blog>
     @Override
     public void onBindViewHolder( RecyclerView.ViewHolder holder, int position )
     {
+        Debug.log( "BlogsAdapter", "onBindViewHolder: " + Integer.toString( position ) );
         if(holder instanceof MyItemViewHolder){
             MyItemViewHolder vh = (MyItemViewHolder)holder;
 

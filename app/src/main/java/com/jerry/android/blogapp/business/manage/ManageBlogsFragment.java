@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.jerry.android.blogapp.R;
 import com.jerry.android.blogapp.business.BaseRecyclerViewAdapter;
@@ -31,8 +32,7 @@ public class ManageBlogsFragment extends BaseFragment implements IManageBlogsCon
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private ManageBlogsAdapter mAdapter;
-
-    private int deletedPosition = -1;
+    private TextView lab_tip;
 
     @Override
     public void onCreate( @Nullable Bundle savedInstanceState )
@@ -120,6 +120,8 @@ public class ManageBlogsFragment extends BaseFragment implements IManageBlogsCon
             }
         } );
 
+        lab_tip = (TextView)view.findViewById( R.id.lab_tip );
+
         onRefresh();
 
         return view;
@@ -140,6 +142,7 @@ public class ManageBlogsFragment extends BaseFragment implements IManageBlogsCon
     @Override
     public void addDataList( List<Blog> list )
     {
+        Debug.log( TAG, "addDataList: " + Integer.toString( list.size() ) );
         mAdapter.addDataList( list );
 
         Page page = _presenter.getCurrentPage();

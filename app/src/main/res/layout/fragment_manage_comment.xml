@@ -7,10 +7,12 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/lab_tip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="fragment_manage_comment"/>
+        android:text="@string/no_data_tip"
+        android:visibility="gone"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycle_view"
