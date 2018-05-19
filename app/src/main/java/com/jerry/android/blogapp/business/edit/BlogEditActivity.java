@@ -92,7 +92,7 @@ public class BlogEditActivity extends BaseSwipeBackActivity implements IBlogEdit
         Debug.log( TAG, blog.toString() );
 
         inputTitle.setText( blog.getTitle() );
-        inputTitle.setText( blog.getContent() );
+        inputContent.setText( blog.getContent() );
     }
 
     @Override

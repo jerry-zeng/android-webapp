@@ -37,12 +37,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text=""/>
+
             <TextView
                 android:id="@+id/txt_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text=""/>
+                android:autoLink="email"
+                android:text="" />
             <TextView
                 android:id="@+id/txt_last_login"
                 android:layout_width="match_parent"

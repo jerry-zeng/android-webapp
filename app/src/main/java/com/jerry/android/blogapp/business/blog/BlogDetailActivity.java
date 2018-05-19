@@ -104,7 +104,6 @@ public class BlogDetailActivity extends BaseSwipeBackActivity implements IBlogDe
     @Override
     public void showBlogDetail( Blog blog )
     {
-        Debug.log( TAG, blog.toString() );
         labTitle.setText( blog.getTitle() );
         labContent.setText( blog.getContent() );
 

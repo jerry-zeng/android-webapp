@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.jerry.android.blogapp.R;
 import com.jerry.android.blogapp.business.BaseRecyclerViewAdapter;
@@ -34,7 +33,6 @@ public class ManageBlogsFragment extends BaseFragment implements IManageBlogsCon
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private ManageBlogsAdapter mAdapter;
-    private TextView lab_tip;
 
     @Override
     public void onCreate( @Nullable Bundle savedInstanceState )
@@ -128,8 +126,6 @@ public class ManageBlogsFragment extends BaseFragment implements IManageBlogsCon
             }
         } );
 
-        lab_tip = (TextView)view.findViewById( R.id.lab_tip );
-
         onRefresh();
 
         return view;
@@ -142,7 +138,7 @@ public class ManageBlogsFragment extends BaseFragment implements IManageBlogsCon
 
         if( resultCode == 2 ){
             if(requestCode == MainActivity.REQUEST_EDIT_BLOG ){
-
+                onRefresh();
             }
         }
     }
@@ -196,12 +192,12 @@ public class ManageBlogsFragment extends BaseFragment implements IManageBlogsCon
     @Override
     public void showProgress()
     {
-
+        mSwipeRefreshWidget.setRefreshing(true);
     }
 
     @Override
     public void hideProgress()
     {
-
+        mSwipeRefreshWidget.setRefreshing(false);
     }
 }

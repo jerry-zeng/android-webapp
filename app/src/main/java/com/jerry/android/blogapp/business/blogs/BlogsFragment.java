@@ -174,5 +174,4 @@ public class BlogsFragment extends BaseFragment implements IBlogsContract.IBlogs
     {
         mSwipeRefreshWidget.setRefreshing(false);
     }
-
 }

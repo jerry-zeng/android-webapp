@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,14 +53,17 @@ public class ManageFragment extends BaseFragment
         return view;
     }
 
-    private static class MyPageAdapter extends FragmentPagerAdapter
+    private static class MyPageAdapter extends FragmentStatePagerAdapter
     {
+        //private FragmentManager fragmentManager;
+
         private final List<String> titleList = new ArrayList<>();
         private final List<Fragment> fragmentList = new ArrayList<>();
 
         public MyPageAdapter( FragmentManager fm )
         {
             super( fm );
+            //fragmentManager = fm;
         }
 
         public void addFragment(Fragment fragment, String title)
@@ -86,5 +90,18 @@ public class ManageFragment extends BaseFragment
         {
             return fragmentList.size();
         }
+
+        //        @Override
+//        public Object instantiateItem(ViewGroup container, int position) {
+//            Fragment fragment = (Fragment) super.instantiateItem(container, position);
+//            fragmentManager.beginTransaction().show(fragment).commit();
+//            return fragment;
+//        }
+//
+//        @Override
+//        public void destroyItem(ViewGroup container, int position, Object object) {
+//            Fragment fragment = getItem(position);
+//            fragmentManager.beginTransaction().hide(fragment).commit();
+//        }
     }
 }

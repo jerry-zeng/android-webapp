@@ -10,6 +10,7 @@ import com.jerry.android.blogapp.business.beans.User;
 import com.jerry.android.blogapp.business.utils.Debug;
 import com.jerry.android.blogapp.business.utils.ImageLoader;
 import com.jerry.android.blogapp.framework.BaseSwipeBackActivity;
+import com.jerry.android.blogapp.framework.core.Tools;
 
 public class UserDetailActivity extends BaseSwipeBackActivity implements IUserDetailContract.IUserView
 {
@@ -41,9 +42,6 @@ public class UserDetailActivity extends BaseSwipeBackActivity implements IUserDe
 
         // get user id from previous Activity.
         Intent intent = getIntent();
-        //String userId = intent.getStringExtra( "userId" );
-        //_presenter.loadUserDetail( userId );
-
         User user = (User)intent.getSerializableExtra( "user" );
         showUserDetail( user );
     }
@@ -67,7 +65,7 @@ public class UserDetailActivity extends BaseSwipeBackActivity implements IUserDe
         txtID.setText( "ID: " + user.getId() );
         txtName.setText( "Name: " + user.getName() );
         txtEmail.setText( "Email: " + user.getEmail() );
-        txtLastLogin.setText( "Last Login: " + Float.toString( user.getLast_login() )  );
+        txtLastLogin.setText( "Last Login: " + Tools.formatDate( (long)user.getLast_login() )  );
     }
 
     @Override
@@ -91,5 +89,6 @@ public class UserDetailActivity extends BaseSwipeBackActivity implements IUserDe
     public void showError( String msg )
     {
         showToast( msg );
+        hideProgress();
     }
 }

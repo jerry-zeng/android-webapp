@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.jerry.android.blogapp.R;
 import com.jerry.android.blogapp.business.BaseRecyclerViewAdapter;
@@ -33,7 +32,8 @@ public class ManageUsersFragment extends BaseFragment implements IMangeUsersCont
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private ManageUsersAdapter mAdapter;
-    private TextView lab_tip;
+
+    private View rootView;
 
     @Override
     public void onCreate( @Nullable Bundle savedInstanceState )
@@ -49,6 +49,7 @@ public class ManageUsersFragment extends BaseFragment implements IMangeUsersCont
     {
         _presenter.destroy();
         _presenter = null;
+        rootView = null;
 
         super.onDestroy();
     }
@@ -57,7 +58,12 @@ public class ManageUsersFragment extends BaseFragment implements IMangeUsersCont
     @Override
     public View onCreateView( LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState )
     {
+        if(rootView != null){
+            return rootView;
+        }
+
         View view = inflater.inflate( R.layout.fragment_manage_user, null );
+        rootView = view;
 
         mSwipeRefreshWidget = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_widget);
         mSwipeRefreshWidget.setColorSchemeResources(R.color.primary,
@@ -127,9 +133,14 @@ public class ManageUsersFragment extends BaseFragment implements IMangeUsersCont
 
         onRefresh();
 
-        lab_tip = (TextView)view.findViewById( R.id.lab_tip );
-
         return view;
+    }
+
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+        Debug.log( TAG, "onDestroyView()" );
     }
 
     @Override
@@ -175,12 +186,12 @@ public class ManageUsersFragment extends BaseFragment implements IMangeUsersCont
     @Override
     public void showProgress()
     {
-
+        mSwipeRefreshWidget.setRefreshing(true);
     }
 
     @Override
     public void hideProgress()
     {
-
+        mSwipeRefreshWidget.setRefreshing(false);
     }
 }

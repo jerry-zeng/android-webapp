@@ -33,7 +33,6 @@ public class BlogsAdapter extends BaseRecyclerViewAdapter<Blog>
     @Override
     public void onBindViewHolder( RecyclerView.ViewHolder holder, int position )
     {
-        Debug.log( "BlogsAdapter", "onBindViewHolder: " + Integer.toString( position ) );
         if(holder instanceof MyItemViewHolder){
             MyItemViewHolder vh = (MyItemViewHolder)holder;
 
