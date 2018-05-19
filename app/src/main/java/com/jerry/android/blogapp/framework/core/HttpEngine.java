@@ -2,6 +2,7 @@ package com.jerry.android.blogapp.framework.core;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
@@ -126,11 +127,13 @@ public class HttpEngine
     public static void Get(String url, HttpCallback callback)
     {
         getInstance()._get( url, callback );
+        Log.i( TAG, "Get: " + url );
     }
 
     public static void Post( String url, Map<String, String> params, HttpCallback callback)
     {
         getInstance()._post( url, params, callback );
+        Log.i( TAG, "Post: " + url );
     }
 
 }

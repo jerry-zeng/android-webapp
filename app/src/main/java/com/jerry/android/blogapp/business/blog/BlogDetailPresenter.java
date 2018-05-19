@@ -1,11 +1,13 @@
 package com.jerry.android.blogapp.business.blog;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jerry.android.blogapp.business.MyApplication;
 import com.jerry.android.blogapp.business.beans.ApiError;
 import com.jerry.android.blogapp.business.beans.Blog;
 import com.jerry.android.blogapp.business.beans.Comment;
 import com.jerry.android.blogapp.business.Url;
 import com.jerry.android.blogapp.business.beans.Page;
+import com.jerry.android.blogapp.business.beans.User;
 import com.jerry.android.blogapp.framework.core.HttpEngine;
 import com.jerry.android.blogapp.framework.core.JsonUtil;
 
@@ -170,7 +172,9 @@ public class BlogDetailPresenter implements IBlogDetailContract.IBlogDetailPrese
 
         Map<String, String> params = new HashMap<>();
         params.put( "content", content );
-        //todo: put user.
+        // put user.
+        User user = MyApplication.getInstance().getCurrentUser();
+        params.put( "user", JsonUtil.serialize( user ) );
 
         HttpEngine.getInstance().Post( url, params, this.onSendCommentCallback);
     }
@@ -187,11 +191,18 @@ public class BlogDetailPresenter implements IBlogDetailContract.IBlogDetailPrese
         _view = null;
         _currentBlog = null;
         _isWorking = false;
+        _currentPage = null;
     }
 
     @Override
     public boolean isWorking()
     {
         return _isWorking;
+    }
+
+    @Override
+    public void setCurrentBlog( Blog blog )
+    {
+        this._currentBlog = blog;
     }
 }

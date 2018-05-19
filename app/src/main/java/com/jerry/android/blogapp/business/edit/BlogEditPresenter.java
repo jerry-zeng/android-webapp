@@ -1,8 +1,10 @@
 package com.jerry.android.blogapp.business.edit;
 
+import com.jerry.android.blogapp.business.MyApplication;
 import com.jerry.android.blogapp.business.beans.ApiError;
 import com.jerry.android.blogapp.business.beans.Blog;
 import com.jerry.android.blogapp.business.Url;
+import com.jerry.android.blogapp.business.beans.User;
 import com.jerry.android.blogapp.framework.core.HttpEngine;
 import com.jerry.android.blogapp.framework.core.JsonUtil;
 
@@ -71,7 +73,8 @@ public class BlogEditPresenter implements IBlogEditContract.IBlogEditPresenter
             _view.showProgress();
     }
 
-    private HttpEngine.HttpCallback onSaveBlogCallback = new HttpEngine.HttpCallback()
+
+    private HttpEngine.HttpCallback onCreateBlogCallback = new HttpEngine.HttpCallback()
     {
         @Override
         public void onSuccess( String json )
@@ -91,7 +94,7 @@ public class BlogEditPresenter implements IBlogEditContract.IBlogEditPresenter
                 _view.onSavedBlog( blog );
             }
             else{
-                onFailure( "Saving blog failed" );
+                onFailure( "Creating blog failed" );
             }
         }
 
@@ -106,19 +109,70 @@ public class BlogEditPresenter implements IBlogEditContract.IBlogEditPresenter
     };
 
     @Override
-    public void saveBlog( String title, String summary, String content )
+    public void createBlog( String title, String summary, String content )
     {
-        String blogId = _currentBlog.getId();
-
-        String url = Url.Api_Blogs + "/" + blogId + "/comments";
+        String url = Url.Api_Blogs;
 
         Map<String, String> params = new HashMap<>();
         params.put( "title", title );
         params.put( "summary", summary );
         params.put( "content", content );
-        //todo: put user.
+        // put user.
+        User user = MyApplication.getInstance().getCurrentUser();
+        params.put( "user", JsonUtil.serialize( user ) );
 
-        HttpEngine.getInstance().Post( url, params, this.onSaveBlogCallback);
+        HttpEngine.getInstance().Post( url, params, this.onCreateBlogCallback);
+    }
+
+
+    private HttpEngine.HttpCallback onEditBlogCallback = new HttpEngine.HttpCallback()
+    {
+        @Override
+        public void onSuccess( String json )
+        {
+            ApiError error = JsonUtil.deserialize( json, ApiError.class );
+            if(error != null && error.getError() != null){
+                onFailure(error.getError());
+                return;
+            }
+
+            Blog blog = JsonUtil.deserialize( json, Blog.class );
+
+            if( _view == null)
+                return;
+
+            if(blog != null){
+                _view.onSavedBlog( blog );
+            }
+            else{
+                onFailure( "Editing blog failed" );
+            }
+        }
+
+        @Override
+        public void onFailure( String reason )
+        {
+            if( _view == null)
+                return;
+
+            _view.showError( reason );
+        }
+    };
+
+    @Override
+    public void editBlog( String title, String summary, String content )
+    {
+        String url = Url.Api_Blogs + "/" + _currentBlog.getId();
+
+        Map<String, String> params = new HashMap<>();
+        params.put( "title", title );
+        params.put( "summary", summary );
+        params.put( "content", content );
+        // put user.
+        User user = MyApplication.getInstance().getCurrentUser();
+        params.put( "user", JsonUtil.serialize( user ) );
+
+        HttpEngine.getInstance().Post( url, params, this.onEditBlogCallback );
     }
 
 

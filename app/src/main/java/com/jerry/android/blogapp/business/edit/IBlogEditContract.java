@@ -9,7 +9,8 @@ public interface IBlogEditContract
     public interface IBlogEditPresenter extends IBasePresenter
     {
         void loadBlogDetail(String blogId);
-        void saveBlog(String title, String summary, String content);
+        void createBlog(String title, String summary, String content);
+        void editBlog( String title, String summary, String content);
     }
 
     public interface IBlogEditView extends IBaseView<IBlogEditPresenter>

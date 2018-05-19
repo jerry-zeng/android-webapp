@@ -82,6 +82,7 @@ public class ManageBlogsFragment extends BaseFragment implements IManageBlogsCon
 
 
         Intent intent = new Intent( getContext(), BlogEditActivity.class );
+        intent.putExtra( "mode", "edit" );
 
         //String blogId = "001526130925642d9fc4d674154402484fa79870530cb46000";
         //intent.putExtra( "blogId", blogId );

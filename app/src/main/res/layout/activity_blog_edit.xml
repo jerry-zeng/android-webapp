@@ -21,7 +21,8 @@
             android:hint="@string/prompt_title"
             android:inputType="text"
             android:maxLines="1"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:text="This is a test blog1"/>
 
     </android.support.design.widget.TextInputLayout>
 
@@ -36,12 +37,12 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/prompt_content"
-            android:imeActionId="6"
-            android:imeActionLabel="@string/action_submit"
-            android:imeOptions="actionUnspecified"
             android:inputType="textMultiLine"
-            android:maxLines="30" />
-
+            android:maxLines="30"
+            android:text="This is a test blog created on Android.\nYou know the secret."/>
+        <!--android:imeActionId="6"-->
+        <!--android:imeActionLabel="@string/action_submit"-->
+        <!--android:imeOptions="actionUnspecified"-->
     </android.support.design.widget.TextInputLayout>
 
     <Button

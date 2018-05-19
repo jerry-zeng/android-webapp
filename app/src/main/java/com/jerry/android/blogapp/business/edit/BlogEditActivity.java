@@ -3,7 +3,6 @@ package com.jerry.android.blogapp.business.edit;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 
 import com.jerry.android.blogapp.R;
 import com.jerry.android.blogapp.business.beans.Blog;
-import com.jerry.android.blogapp.business.beans.User;
 import com.jerry.android.blogapp.business.utils.Debug;
 import com.jerry.android.blogapp.framework.BaseSwipeBackActivity;
 
@@ -26,6 +24,7 @@ public class BlogEditActivity extends BaseSwipeBackActivity implements IBlogEdit
     private EditText inputTitle;
     private EditText inputContent;
     private Button btnSubmit;
+    private String _mode;
 
     @Override
     protected void onCreate( Bundle savedInstanceState )
@@ -64,11 +63,18 @@ public class BlogEditActivity extends BaseSwipeBackActivity implements IBlogEdit
         _presenter.start();
 
         Intent intent = getIntent();
-        //String blogId = intent.getStringExtra( "blogId" );
-        //_presenter.loadBlogDetail( blogId );
+        String mode = intent.getStringExtra( "mode" );
+        if(mode.equals( "create" )){
 
-        Blog blog = (Blog)intent.getSerializableExtra( "blog" );
-        showBlogDetail( blog );
+        }
+        else{
+            //String blogId = intent.getStringExtra( "blogId" );
+            //_presenter.loadBlogDetail( blogId );
+
+            Blog blog = (Blog)intent.getSerializableExtra( "blog" );
+            showBlogDetail( blog );
+        }
+        this._mode = mode;
     }
 
     @Override
@@ -94,6 +100,7 @@ public class BlogEditActivity extends BaseSwipeBackActivity implements IBlogEdit
     {
         Debug.log( TAG, blog.toString() );
 
+        setResult( 2 );
         finish();
     }
 
@@ -135,12 +142,12 @@ public class BlogEditActivity extends BaseSwipeBackActivity implements IBlogEdit
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if( !TextUtils.isEmpty( title ) ){
+        if( TextUtils.isEmpty( title ) ){
             inputTitle.setError( getString( R.string.error_field_required ) );
             focusView = inputTitle;
         }
 
-        if( !TextUtils.isEmpty( content ) ){
+        if( TextUtils.isEmpty( content ) ){
             inputContent.setError( getString( R.string.error_field_required ) );
             focusView = inputContent;
         }
@@ -157,7 +164,10 @@ public class BlogEditActivity extends BaseSwipeBackActivity implements IBlogEdit
                 summary = content;
             }
 
-            _presenter.saveBlog( title, summary, content );
+            if(this._mode.equals( "create" ))
+                _presenter.createBlog( title, summary, content );
+            else
+                _presenter.editBlog( title, summary, content );
         }
     }
 }

@@ -81,7 +81,8 @@ public class BlogsFragment extends BaseFragment implements IBlogsContract.IBlogs
                 Blog blog = mAdapter.getItem( position );
                 if(blog != null){
                     Intent intent = new Intent( getActivity().getApplicationContext(), BlogDetailActivity.class );
-                    intent.putExtra( "blogId", blog.getId() );
+                    //intent.putExtra( "blogId", blog.getId() );
+                    intent.putExtra( "blog", blog );
                     startActivity( intent );
                 }
             }
@@ -128,33 +129,34 @@ public class BlogsFragment extends BaseFragment implements IBlogsContract.IBlogs
     {
         //mAdapter.setShowFooter(true);
 
-        mAdapter.addDataList( list );
+        Page page = _presenter.getCurrentPage();
+        if(page == null || page.getPage_index() == 1){
+            mAdapter.setDataList( list );
+        }
+        else{
+            mAdapter.addDataList( list );
 
+            if(list == null || list.size() == 0)
+                mAdapter.setShowFooter(false);
+        }
     }
 
-    // swipe
+    // swipe to reload
     @Override
     public void onRefresh()
     {
-        Page page = _presenter.getCurrentPage();
-        if(page == null){
-            _presenter.loadData(0, Url.PAZE_SIZE);
-        }
-        else if( page.isHas_next() ){
-            _presenter.loadData( page.getPage_index()+1, Url.PAZE_SIZE );
-        }
-        else{
-
-        }
+        mAdapter.clearData();
+        _presenter.loadData(1, Url.PAZE_SIZE);
     }
 
 
     @Override
     public void showLoadFailMsg()
     {
-        if(_presenter.getCurrentPage().getPage_index() == 0) {
-            mAdapter.setShowFooter(false);
+        if(_presenter.getCurrentPage() != null && _presenter.getCurrentPage().getPage_index() == 1) {
+
         }
+        mAdapter.setShowFooter(false);
     }
 
     @Override
@@ -167,6 +169,7 @@ public class BlogsFragment extends BaseFragment implements IBlogsContract.IBlogs
     public void showError( String msg )
     {
         showToast( msg );
+        mAdapter.setShowFooter(false);
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.jerry.android.blogapp.business;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,17 +16,20 @@ import android.widget.TextView;
 import com.jerry.android.blogapp.R;
 import com.jerry.android.blogapp.business.beans.User;
 import com.jerry.android.blogapp.business.blogs.BlogsFragment;
+import com.jerry.android.blogapp.business.edit.BlogEditActivity;
 import com.jerry.android.blogapp.business.utils.ImageLoader;
 import com.jerry.android.blogapp.framework.BaseAppCompatActivity;
 
 public class MainActivity extends BaseAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
 {
+    private final static int REQUEST_CREATE_BLOG = 2; // 返回的结果码.
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar mToolbar;
     private NavigationView mNavigationView;
+    private FloatingActionButton btnCreateBlog;
 
     @Override
     protected void onCreate( Bundle savedInstanceState )
@@ -37,16 +40,17 @@ public class MainActivity extends BaseAppCompatActivity
         mToolbar = (Toolbar)findViewById( R.id.toolbar );
         setSupportActionBar( mToolbar );
 
-//        FloatingActionButton fab = (FloatingActionButton)findViewById( R.id.fab );
-//        fab.setOnClickListener( new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick( View view )
-//            {
-//                Snackbar.make( view, "Replace with your own action", Snackbar.LENGTH_LONG )
-//                        .setAction( "Action", null ).show();
-//            }
-//        } );
+        btnCreateBlog = (FloatingActionButton)findViewById( R.id.btn_create_blog );
+        btnCreateBlog.setOnClickListener( new View.OnClickListener()
+        {
+            @Override
+            public void onClick( View view )
+            {
+                Intent intent = new Intent( getApplicationContext(), BlogEditActivity.class );
+                intent.putExtra( "mode", "create" );
+                startActivityForResult( intent, REQUEST_CREATE_BLOG );
+            }
+        } );
 
         drawerLayout = (DrawerLayout)findViewById( R.id.drawer_layout );
 
@@ -61,18 +65,19 @@ public class MainActivity extends BaseAppCompatActivity
         // hide manage button.
         User user = MyApplication.getInstance().getCurrentUser();
         if( user != null && user.isAdmin() ){
-            mNavigationView.getMenu().getItem( 1 ).setVisible( true );
+            mNavigationView.getMenu().findItem( R.id.nav_manage ).setVisible( true );
         }
         else{
-            mNavigationView.getMenu().getItem( 1 ).setVisible( false );
+            mNavigationView.getMenu().findItem( R.id.nav_manage ).setVisible( false );
         }
 
-//        if(user != null){
-//            ImageView icon = (ImageView)mNavigationView.getHeaderView( 1 );
-//            TextView lab_name = (TextView)mNavigationView.getHeaderView( 2 );
-//            ImageLoader.display( this, icon, user.getImage() );
-//            lab_name.setText( user.getName() );
-//        }
+        if(user != null){
+            View headerView = mNavigationView.getHeaderView( 0 );
+            ImageView icon = (ImageView)headerView.findViewById( R.id.icon );
+            TextView lab_name = (TextView)headerView.findViewById( R.id.lab_name );
+            ImageLoader.display( this, icon, user.getImage() );
+            lab_name.setText( user.getName() );
+        }
 
         focusOnBlogs();
     }
@@ -96,7 +101,6 @@ public class MainActivity extends BaseAppCompatActivity
         int id = item.getItemId();
 
         if( id == R.id.nav_blogs ){
-            showToast( "Show blogs page" );
             focusOnBlogs();
         }
         else if( id == R.id.nav_manage ){
@@ -122,12 +126,27 @@ public class MainActivity extends BaseAppCompatActivity
     {
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_content, new BlogsFragment()).commit();
         mToolbar.setTitle( "Blog" );
-        mToolbar.setVisibility( View.INVISIBLE );
+        //mToolbar.setVisibility( View.INVISIBLE );
+        btnCreateBlog.setVisibility( View.VISIBLE );
     }
 
     void focusOnManage()
     {
         mToolbar.setTitle( "Manage" );
-        mToolbar.setVisibility( View.VISIBLE );
+        //mToolbar.setVisibility( View.VISIBLE );
+        btnCreateBlog.setVisibility( View.INVISIBLE );
+    }
+
+    
+    @Override
+    protected void onActivityResult( int requestCode, int resultCode, Intent data )
+    {
+        super.onActivityResult( requestCode, resultCode, data );
+
+        if( resultCode == 2 ){
+            if(requestCode == REQUEST_CREATE_BLOG ){
+                focusOnBlogs();
+            }
+        }
     }
 }

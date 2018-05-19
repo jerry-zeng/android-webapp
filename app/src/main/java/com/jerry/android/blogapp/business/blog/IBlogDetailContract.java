@@ -14,6 +14,8 @@ public interface IBlogDetailContract
         void loadBlogDetail(String blogId);
         void loadBlogComments();
         void sendComment(String content);
+
+        void setCurrentBlog(Blog blog);
     }
 
     public interface IBlogDetailView extends IBaseView<IBlogDetailPresenter>

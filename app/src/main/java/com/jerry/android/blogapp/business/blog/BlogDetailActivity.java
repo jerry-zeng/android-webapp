@@ -77,8 +77,13 @@ public class BlogDetailActivity extends BaseSwipeBackActivity implements IBlogDe
 
         // get blog id from previous Activity.
         Intent intent = getIntent();
-        String blogId = intent.getStringExtra( "blogId" );
-        _presenter.loadBlogDetail( blogId );
+        //String blogId = intent.getStringExtra( "blogId" );
+        //_presenter.loadBlogDetail( blogId );
+
+        Blog blog = (Blog)intent.getSerializableExtra( "blog" );
+        _presenter.setCurrentBlog( blog );
+
+        showBlogDetail( blog );
 
         commentItemList = new ArrayList<>();
         mContext = this;
@@ -134,7 +139,7 @@ public class BlogDetailActivity extends BaseSwipeBackActivity implements IBlogDe
     {
         Debug.log( TAG, comment.toString() );
 
-        View commentView = LayoutInflater.from(mContext).inflate(R.layout.item_comment, layoutComment, false);
+        View commentView = LayoutInflater.from(mContext).inflate(R.layout.item_comment, null);
         ImageView icon = (ImageView)commentView.findViewById( R.id.icon );
         TextView lab_name = (TextView)commentView.findViewById( R.id.lab_name );
         TextView lab_time = (TextView)commentView.findViewById( R.id.lab_time );
@@ -145,6 +150,7 @@ public class BlogDetailActivity extends BaseSwipeBackActivity implements IBlogDe
         lab_time.setText( Tools.formatDateShort( (long)comment.getCreated_at() ) );
         lab_content.setText( comment.getContent() );
 
+        layoutComment.addView( commentView, 0 );
     }
 
     @Override
@@ -218,7 +224,7 @@ public class BlogDetailActivity extends BaseSwipeBackActivity implements IBlogDe
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if( !TextUtils.isEmpty( comment ) ){
+        if( TextUtils.isEmpty( comment ) ){
             inputComment.setError( getString( R.string.error_field_required ) );
             focusView = inputComment;
         }

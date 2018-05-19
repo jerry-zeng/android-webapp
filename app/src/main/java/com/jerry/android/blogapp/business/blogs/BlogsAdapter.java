@@ -37,6 +37,12 @@ public class BlogsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         notifyDataSetChanged();
     }
 
+    public void clearData()
+    {
+        _data.clear();
+        notifyDataSetChanged();
+    }
+
     public void addData(Blog data)
     {
         _data.add( data );
@@ -52,9 +58,21 @@ public class BlogsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public Blog getItem(int position)
     {
-        if(position >= 0 && position < _data.size())
-            return _data.get( position );
-        return null;
+        return _data != null? _data.get( position ) : null;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        // 最后一个item设置为footerView
+        if(! isShowFooter() ) {
+            return TYPE_ITEM;
+        }
+        if (position + 1 == getItemCount()) {
+            return TYPE_FOOTER;
+        }
+        else {
+            return TYPE_ITEM;
+        }
     }
 
     @Override
@@ -75,7 +93,7 @@ public class BlogsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             return new ItemViewHolder( view );
         }
         else{
-            View view = LayoutInflater.from( _context ).inflate( R.layout.footer, parent, false );
+            View view = LayoutInflater.from( _context ).inflate( R.layout.footer, null );
             view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
 
