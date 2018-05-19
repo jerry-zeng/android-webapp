@@ -46,6 +46,11 @@ public abstract class BaseRecyclerViewAdapter<TData> extends RecyclerView.Adapte
         this._onItemLongClickListener = listener;
     }
 
+    public List<TData> getData()
+    {
+        return _data;
+    }
+
     public void setDataList(List<TData> data)
     {
         _data = data;

@@ -1,6 +1,7 @@
 package com.jerry.android.blogapp.business.manage;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,8 +9,11 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.PopupWindow;
 
 import com.jerry.android.blogapp.R;
 import com.jerry.android.blogapp.business.BaseRecyclerViewAdapter;
@@ -91,7 +95,7 @@ public class ManageBlogsFragment extends BaseFragment implements IManageBlogsCon
             @Override
             public boolean onItemLongClick( View view, int position )
             {
-                return false;
+                return showPopup( view, position );
             }
         } );
 
@@ -131,6 +135,49 @@ public class ManageBlogsFragment extends BaseFragment implements IManageBlogsCon
         return view;
     }
 
+    private boolean showPopup(View item, final int position)
+    {
+        View popupView = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.popup, null, false);
+        Button btn_delete = (Button) popupView.findViewById(R.id.btn_delete);
+
+        //1.构造一个PopupWindow，参数依次是加载的View，宽高
+        final PopupWindow popWindow = new PopupWindow(popupView,
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+
+        //这些为了点击非PopupWindow区域，PopupWindow会消失的，如果没有下面的
+        //代码的话，你会发现，当你把PopupWindow显示出来了，无论你按多少次后退键
+        //PopupWindow并不会关闭，而且退不出程序，加上下述代码可以解决这个问题
+        popWindow.setTouchable(true);
+        popWindow.setTouchInterceptor(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+                // 这里如果返回true的话，touch事件将被拦截
+                // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
+            }
+        });
+        popWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));    //要为popWindow设置一个背景才有效
+
+        //设置popupWindow显示的位置，参数依次是参照View，x轴的偏移量，y轴的偏移量
+        popWindow.showAsDropDown(item, item.getWidth()/2 - popupView.getWidth()/2, 0);
+
+        //设置popupWindow里的按钮的事件
+        btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Blog blog = mAdapter.getItem( position );
+                if(blog != null){
+                    if( !_presenter.isWorking() ){
+                        _presenter.delete(blog.getId());
+                    }
+                }
+                popWindow.dismiss();
+            }
+        });
+
+        return true;
+    }
+
     @Override
     public void onActivityResult( int requestCode, int resultCode, Intent data )
     {
@@ -168,6 +215,19 @@ public class ManageBlogsFragment extends BaseFragment implements IManageBlogsCon
     public void onDeleteBlog( String blogId )
     {
         Debug.log( TAG, "deleted blog " + blogId );
+
+        int deletePos = -1;
+
+        List<Blog> dataList = mAdapter.getData();
+        for( int i = 0; i < dataList.size(); i++ ){
+            if(dataList.get(i).getId().equals( blogId )){
+                deletePos = i;
+                break;
+            }
+        }
+        if(deletePos > -1){
+            mAdapter.removeData( deletePos );
+        }
     }
 
     @Override

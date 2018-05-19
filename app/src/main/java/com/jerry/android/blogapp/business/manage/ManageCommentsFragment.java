@@ -1,6 +1,7 @@
 package com.jerry.android.blogapp.business.manage;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,12 +9,16 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.PopupWindow;
 
 import com.jerry.android.blogapp.R;
 import com.jerry.android.blogapp.business.BaseRecyclerViewAdapter;
 import com.jerry.android.blogapp.business.Url;
+import com.jerry.android.blogapp.business.beans.Blog;
 import com.jerry.android.blogapp.business.beans.Comment;
 import com.jerry.android.blogapp.business.beans.Page;
 import com.jerry.android.blogapp.business.blog.BlogDetailActivity;
@@ -94,9 +99,9 @@ public class ManageCommentsFragment extends BaseFragment implements IManageComme
         mAdapter.setOnItemLongClickListener( new BaseRecyclerViewAdapter.OnItemLongClickListener()
         {
             @Override
-            public boolean onItemLongClick( View view, int position )
+            public boolean onItemLongClick( View view, final int position )
             {
-                return false;
+                return showPopup( view, position );
             }
         } );
 
@@ -136,11 +141,47 @@ public class ManageCommentsFragment extends BaseFragment implements IManageComme
         return view;
     }
 
-    @Override
-    public void onDestroyView()
+    private boolean showPopup(View item, final int position)
     {
-        super.onDestroyView();
-        Debug.log( TAG, "onDestroyView()" );
+        View popupView = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.popup, null, false);
+        Button btn_delete = (Button) popupView.findViewById(R.id.btn_delete);
+
+        //1.构造一个PopupWindow，参数依次是加载的View，宽高
+        final PopupWindow popWindow = new PopupWindow(popupView,
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+
+        //这些为了点击非PopupWindow区域，PopupWindow会消失的，如果没有下面的
+        //代码的话，你会发现，当你把PopupWindow显示出来了，无论你按多少次后退键
+        //PopupWindow并不会关闭，而且退不出程序，加上下述代码可以解决这个问题
+        popWindow.setTouchable(true);
+        popWindow.setTouchInterceptor(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+                // 这里如果返回true的话，touch事件将被拦截
+                // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
+            }
+        });
+        popWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));    //要为popWindow设置一个背景才有效
+
+        //设置popupWindow显示的位置，参数依次是参照View，x轴的偏移量，y轴的偏移量
+        popWindow.showAsDropDown(item, item.getWidth()/2 - popupView.getWidth()/2, 0);
+
+        //设置popupWindow里的按钮的事件
+        btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Comment comment = mAdapter.getItem( position );
+                if(comment != null){
+                    if( !_presenter.isWorking() ){
+                        _presenter.delete(comment.getId());
+                    }
+                }
+                popWindow.dismiss();
+            }
+        });
+
+        return true;
     }
 
     @Override
@@ -168,6 +209,19 @@ public class ManageCommentsFragment extends BaseFragment implements IManageComme
     public void onDeleteComment( String commentId )
     {
         Debug.log( TAG, "deleted comment " + commentId );
+
+        int deletePos = -1;
+
+        List<Comment> dataList = mAdapter.getData();
+        for( int i = 0; i < dataList.size(); i++ ){
+            if(dataList.get(i).getId().equals( commentId )){
+                deletePos = i;
+                break;
+            }
+        }
+        if(deletePos > -1){
+            mAdapter.removeData( deletePos );
+        }
     }
 
     @Override
